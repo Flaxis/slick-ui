@@ -1,0 +1,64 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Preview - Menu</title>
+    <script src="js/phaser.min.js"></script>
+    <script src="../dist/slick-ui.min.js"></script>
+</head>
+<body>
+
+<div id="gameContainer"></div>
+
+<script type="text/javascript">
+    var game = new Phaser.Game(650, 350, Phaser.CANVAS, '', { preload: preload, create: create, update: update });
+    var slickUI;
+    function preload() {
+        slickUI = game.plugins.add(Phaser.Plugin.SlickUI);
+        game.load.image('menu-button', 'assets/ui/menu.png');
+        game.load.image('backdrop', 'assets/backdrop.png');
+        slickUI.load('assets/ui/kenney/kenney.json');
+    }
+    function create() {
+        game.add.sprite(0,-125,'backdrop');
+        var button, panel, menuButton;
+        slickUI.add(panel = new SlickUI.Element.Panel(game.width - 156, 8, 150, game.height - 16));
+        panel.add(new SlickUI.Element.Text(10,0, "Menu")).centerHorizontally().text.alpha = 0.5;
+        panel.add(button = new SlickUI.Element.Button(0,game.height - 166, 140, 80)).events.onInputUp.add(function () {
+            console.log('Clicked save game');
+        });
+
+        button.add(new SlickUI.Element.Text(0,0, "Save game")).center();
+
+        panel.add(button = new SlickUI.Element.Button(0,game.height - 76, 140, 40));
+        button.add(new SlickUI.Element.Text(0,0, "Close")).center();
+
+        panel.container.displayGroup.visible = false;
+
+        slickUI.add(menuButton = new SlickUI.Element.DisplayObject(game.width - 45, 8, game.make.sprite(0, 0, 'menu-button')));
+        menuButton.sprite.inputEnabled = true;
+        menuButton.sprite.input.useHandCursor = true;
+        menuButton.sprite.events.onInputDown.add(function () {
+            panel.container.displayGroup.visible = true;
+            panel.container.displayGroup.x += 156;
+            game.add.tween(panel.container.displayGroup).to( {x: panel.container.displayGroup.x - 156}, 500, Phaser.Easing.Exponential.Out, true).onComplete.add(function () {
+                menuButton.container.displayGroup.visible = false;
+            });
+            slickUI.container.displayGroup.bringToTop(panel.container.displayGroup);
+        }, this);
+
+        button.events.onInputUp.add(function () {
+            game.add.tween(panel.container.displayGroup).to( {x: panel.container.displayGroup.x + 156}, 500, Phaser.Easing.Exponential.Out, true).onComplete.add(function () {
+                panel.container.displayGroup.visible = false;
+                panel.container.displayGroup.x -= 156;
+            });
+            menuButton.container.displayGroup.visible = true;
+        });
+    }
+    function update() {
+
+    }
+</script>
+
+</body>
+</html>

@@ -6,7 +6,7 @@ SlickUI beats the challenge of creating user interfaces easily in an object orie
 ### Getting started
 Install using git:
 ```sh
-Git clone https://github.com/Flaxis/slick-ui.git
+git clone https://github.com/Flaxis/slick-ui.git
 ```
 Install using bower:
 ```sh

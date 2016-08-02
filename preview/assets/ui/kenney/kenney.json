@@ -1,0 +1,25 @@
+{
+  "name": "kenney",
+  "images": {
+    "check_on": "images/grey_boxCheckmark.png",
+    "cross_on": "images/grey_boxCross.png",
+    "radio_on": "images/grey_boxTick.png",
+    "check_off": "images/grey_box.png",
+    "cross_off": "images/grey_box.png",
+    "radio_off": "images/grey_circle.png",
+    "button_on": "images/blue_button02.png",
+    "button_off": "images/grey_button02.png",
+    "panel": "images/grey_panel.png"
+  },
+  "fonts": {
+    "minecraftia": ["fonts/minecraftia-black.png", "fonts/minecraftia.xml"]
+  },
+  "button": {
+    "border-x": 8,
+    "border-y": 8
+  },
+  "panel": {
+    "border-x": 10,
+    "border-y": 10
+  }
+}

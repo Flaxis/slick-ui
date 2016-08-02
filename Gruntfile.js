@@ -9,7 +9,7 @@ module.exports = function(grunt) {
 					'src/Plugin.js',
 					'src/**/*.js'
 				],
-				dest: 'dist/slick-ui.js'
+				dest: 'dist/slick-ui.min.js'
 			}
 		}
 	});
