@@ -1,0 +1,24 @@
+{
+  "name": "SlickUI",
+  "description": "SlickUI beats the challenge of creating user interfaces easily in an object oriented way.",
+  "main": "src/Plugin.js",
+  "authors": [
+    "Richard Snijders <richard@fizz.nl>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "phaser",
+    "ui",
+    "user",
+    "interface",
+    "gui",
+    "game",
+    "game",
+    "engine"
+  ],
+  "homepage": "http://slick-ui.com",
+  "ignore": [
+    "dist",
+    "node_modules"
+  ]
+}
