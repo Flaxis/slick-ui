@@ -1,5 +1,5 @@
 {
-  "name": "SlickUI",
+  "name": "slick-ui",
   "description": "SlickUI beats the challenge of creating user interfaces easily in an object oriented way.",
   "main": "src/Plugin.js",
   "authors": [
