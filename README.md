@@ -1,3 +1,4 @@
+[![Gitter](https://badges.gitter.im/slick-ui/Lobby.svg)](https://gitter.im/slick-ui/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 # SlickUI
 ![SlickUI](http://slick-ui.com/img/portfolio/thumbnails/1.jpg)
 
