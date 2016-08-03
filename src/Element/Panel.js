@@ -12,10 +12,12 @@ SlickUI.Element = SlickUI.Element ? SlickUI.Element : { };
  * @constructor
  */
 SlickUI.Element.Panel = function (x, y, width, height) {
-    this.x = x;
-    this.y = y;
-    this.width = width;
-    this.height = height;
+    this._x = x;
+    this._y = y;
+    this._offsetX = x;
+    this._offsetY = y;
+    this._width = width;
+    this._height = height;
     this.container = null;
 };
 
@@ -39,10 +41,10 @@ SlickUI.Element.Panel.prototype.init = function() {
     var panel = game.make.sprite(0, 0, 'slick-ui-panel');
     var bmd = game.add.bitmapData(game.width, game.height);
 
-    var x = this.container.x = this.container.parent.x + this.x;
-    var y = this.container.y = this.container.parent.y + this.y;
-    var width = this.container.width = Math.min(this.container.parent.width - this.x, this.width);
-    var height = this.container.height = Math.min(this.container.parent.height - this.y, this.height);
+    var x = this.container.x = this.container.parent.x + this._x;
+    var y = this.container.y = this.container.parent.y + this._y;
+    var width = this.container.width = Math.min(this.container.parent.width - this._x, this._width);
+    var height = this.container.height = Math.min(this.container.parent.height - this._y, this._height);
     this.container.x += Math.round(theme.panel['border-x'] / 2);
     this.container.y += Math.round(theme.panel['border-y'] / 2);
     this.container.width -= theme.panel['border-x'];
@@ -113,7 +115,10 @@ SlickUI.Element.Panel.prototype.init = function() {
         height - theme.panel['border-y'] * 2
     ); // Body
 
-    this.container.displayGroup.create(x, y, bmd).fixedToCamera = true;
+    this._sprite = this.container.displayGroup.create(x, y, bmd);
+    this._sprite.fixedToCamera = true;
+    this._offsetX = x;
+    this._offsetY = y;
 };
 
 /**
@@ -125,3 +130,76 @@ SlickUI.Element.Panel.prototype.init = function() {
 SlickUI.Element.Panel.prototype.add = function (element) {
     return this.container.add(element);
 };
+
+
+/* ------------------------------- */
+
+
+/**
+ * Setters / getters
+ */
+Object.defineProperty(SlickUI.Element.Panel.prototype, 'x', {
+    get: function() {
+        return this._x - this.container.parent.x;
+    },
+    set: function(value) {
+        this._x = value;
+        this.container.displayGroup.x = this.container.parent.x + value - this._offsetX;
+    }
+});
+
+Object.defineProperty(SlickUI.Element.Panel.prototype, 'y', {
+    get: function() {
+        return this._y - this.container.parent.y;
+    },
+    set: function(value) {
+        this._y = value;
+        this.container.displayGroup.y = this.container.parent.y + value - this._offsetY;
+    }
+});
+
+Object.defineProperty(SlickUI.Element.Panel.prototype, 'visible', {
+    get: function() {
+        return this.container.displayGroup.visible;
+    },
+    set: function(value) {
+        this.container.displayGroup.visible = value;
+    }
+});
+
+Object.defineProperty(SlickUI.Element.Panel.prototype, 'alpha', {
+    get: function() {
+        return this.container.displayGroup.alpha;
+    },
+    set: function(value) {
+        this.container.displayGroup.alpha = value;
+    }
+});
+
+// Try to avoid changing the width or height of elements.
+
+Object.defineProperty(SlickUI.Element.Panel.prototype, 'width', {
+    get: function() {
+        return this.container.width
+    },
+    set: function(value) {
+        var theme = game.cache.getJSON('slick-ui-theme');
+        this._width = Math.round(value + theme.panel['border-x']);
+        this._sprite.destroy();
+        this.init();
+        this.container.displayGroup.sendToBack(this._sprite);
+    }
+});
+
+Object.defineProperty(SlickUI.Element.Panel.prototype, 'height', {
+    get: function() {
+        return this.container.height
+    },
+    set: function(value) {
+        var theme = game.cache.getJSON('slick-ui-theme');
+        this._height = Math.round(value + theme.panel['border-y']);
+        this._sprite.destroy();
+        this.init();
+        this.container.displayGroup.sendToBack(this._sprite);
+    }
+});

@@ -14,6 +14,7 @@ SlickUI.Container = SlickUI.Container ? SlickUI.Container : { };
  */
 SlickUI.Container.Container = function(parent) {
     this.parent = parent;
+    this.children = [];
     this.displayGroup = game.add.group();
     if(parent) {
         parent.displayGroup.add(this.displayGroup);
@@ -42,6 +43,7 @@ SlickUI.Container.Container.prototype.add = function(element) {
         element.init();
     }
     game.world.bringToTop(this.displayGroup);
+    this.children.push(element);
 
     return element; // Allows chaining
 };

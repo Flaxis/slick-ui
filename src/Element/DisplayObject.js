@@ -14,18 +14,20 @@ SlickUI.Element = SlickUI.Element ? SlickUI.Element : { };
  * @constructor
  */
 SlickUI.Element.DisplayObject = function (x, y, displayObject, width, height) {
-    this.x = x;
-    this.y = y;
+    this._x = x;
+    this._y = y;
+    this._offsetX = x;
+    this._offsetY = y;
     this.displayObject = displayObject;
     this.container = null;
-    this.width = width;
-    this.height = height;
+    this._width = width;
+    this._height = height;
 
     if(typeof width == 'undefined') {
-        this.width = game.width;
+        this._width = game.width;
     }
     if(typeof height == 'undefined') {
-        this.height = game.height;
+        this._height = game.height;
     }
 };
 
@@ -42,10 +44,10 @@ SlickUI.Element.DisplayObject.prototype.setContainer = function (container) {
  * Initializer
  */
 SlickUI.Element.DisplayObject.prototype.init = function() {
-    var x = this.container.x = this.container.parent.x + this.x;
-    var y = this.container.y = this.container.parent.y + this.y;
-    this.container.width = Math.min(this.container.parent.width - this.x, this.width);
-    this.container.height = Math.min(this.container.parent.height - this.y, this.height);
+    var x = this.container.x = this.container.parent.x + this._x;
+    var y = this.container.y = this.container.parent.y + this._y;
+    this.container.width = Math.min(this.container.parent.width - this._x, this._width);
+    this.container.height = Math.min(this.container.parent.height - this._y, this._height);
 
     if(!this.displayObject instanceof Phaser.Sprite) {
         this.sprite = game.make.sprite(x, y, this.displayObject);
@@ -56,6 +58,8 @@ SlickUI.Element.DisplayObject.prototype.init = function() {
     this.container.displayGroup.add(this.sprite);
     this.sprite.x = x;
     this.sprite.y = y;
+    this._offsetX = x;
+    this._offsetY = y;
     this.sprite.fixedToCamera = true;
 };
 
@@ -65,6 +69,97 @@ SlickUI.Element.DisplayObject.prototype.init = function() {
  * @param element
  * @returns {SlickUI.Container.Container}
  */
-SlickUI.Element.Button.prototype.add = function (element) {
+SlickUI.Element.DisplayObject.prototype.add = function (element) {
     return this.container.add(element);
 };
+
+
+/* ------------------------------- */
+
+
+/**
+ * Setters / getters
+ */
+Object.defineProperty(SlickUI.Element.DisplayObject.prototype, 'x', {
+    get: function() {
+        return this._x - this.container.parent.x;
+    },
+    set: function(value) {
+        this._x = value;
+        this.container.displayGroup.x = this.container.parent.x + value - this._offsetX;
+    }
+});
+
+Object.defineProperty(SlickUI.Element.DisplayObject.prototype, 'y', {
+    get: function() {
+        return this._y - this.container.parent.y;
+    },
+    set: function(value) {
+        this._y = value;
+        this.container.displayGroup.y = this.container.parent.y + value - this._offsetY;
+    }
+});
+
+Object.defineProperty(SlickUI.Element.DisplayObject.prototype, 'visible', {
+    get: function() {
+        return this.container.displayGroup.visible;
+    },
+    set: function(value) {
+        this.container.displayGroup.visible = value;
+    }
+});
+
+Object.defineProperty(SlickUI.Element.DisplayObject.prototype, 'alpha', {
+    get: function() {
+        return this.container.displayGroup.alpha;
+    },
+    set: function(value) {
+        this.container.displayGroup.alpha = value;
+    }
+});
+
+Object.defineProperty(SlickUI.Element.DisplayObject.prototype, 'inputEnabled', {
+    get: function() {
+        return this.sprite.inputEnabled;
+    },
+    set: function(value) {
+        this.sprite.inputEnabled = value;
+        if(value) {
+            this.input = this.sprite.input
+        } else {
+            this.input = null;
+        }
+    }
+});
+
+Object.defineProperty(SlickUI.Element.DisplayObject.prototype, 'events', {
+    get: function() {
+        return this.sprite.events;
+    }
+});
+
+// Try to avoid changing the width or height of elements.
+
+Object.defineProperty(SlickUI.Element.DisplayObject.prototype, 'width', {
+    get: function() {
+        return this.container.width
+    },
+    set: function(value) {
+        this._width = value;
+        this.sprite.destroy();
+        this.init();
+        this.container.displayGroup.sendToBack(this.sprite);
+    }
+});
+
+Object.defineProperty(SlickUI.Element.DisplayObject.prototype, 'height', {
+    get: function() {
+        return this.container.height
+    },
+    set: function(value) {
+        this._height = value;
+        this.sprite.destroy();
+        this.init();
+        this.container.displayGroup.sendToBack(this.sprite);
+    }
+});
