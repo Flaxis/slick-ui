@@ -33,26 +33,30 @@
         panel.add(button = new SlickUI.Element.Button(0,game.height - 76, 140, 40));
         button.add(new SlickUI.Element.Text(0,0, "Close")).center();
 
-        panel.container.displayGroup.visible = false;
+        panel.visible = false;
+        var basePosition = panel.x;
 
         slickUI.add(menuButton = new SlickUI.Element.DisplayObject(game.width - 45, 8, game.make.sprite(0, 0, 'menu-button')));
-        menuButton.sprite.inputEnabled = true;
-        menuButton.sprite.input.useHandCursor = true;
-        menuButton.sprite.events.onInputDown.add(function () {
-            panel.container.displayGroup.visible = true;
-            panel.container.displayGroup.x += 156;
-            game.add.tween(panel.container.displayGroup).to( {x: panel.container.displayGroup.x - 156}, 500, Phaser.Easing.Exponential.Out, true).onComplete.add(function () {
-                menuButton.container.displayGroup.visible = false;
+        menuButton.inputEnabled = true;
+        menuButton.input.useHandCursor = true;
+        menuButton.events.onInputDown.add(function () {
+            if(panel.visible) {
+                return;
+            }
+            panel.visible = true;
+            panel.x = basePosition + 156;
+            game.add.tween(panel).to( {x: basePosition}, 500, Phaser.Easing.Exponential.Out, true).onComplete.add(function () {
+                menuButton.visible = false;
             });
             slickUI.container.displayGroup.bringToTop(panel.container.displayGroup);
         }, this);
 
         button.events.onInputUp.add(function () {
-            game.add.tween(panel.container.displayGroup).to( {x: panel.container.displayGroup.x + 156}, 500, Phaser.Easing.Exponential.Out, true).onComplete.add(function () {
-                panel.container.displayGroup.visible = false;
-                panel.container.displayGroup.x -= 156;
+            game.add.tween(panel).to( {x: basePosition + 156}, 500, Phaser.Easing.Exponential.Out, true).onComplete.add(function () {
+                panel.visible = false;
+                panel.x -= 156;
             });
-            menuButton.container.displayGroup.visible = true;
+            menuButton.visible = true;
         });
     }
     function update() {
