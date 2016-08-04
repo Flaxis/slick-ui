@@ -58,6 +58,29 @@
             });
             menuButton.visible = true;
         });
+
+        var cb1, cb2;
+        panel.add(cb1 = new SlickUI.Element.Checkbox(0,100, SlickUI.Element.Checkbox.TYPE_RADIO));
+        cb1.events.onInputDown.add(function () {
+            if(cb1.checked && cb2.checked) {
+                cb2.checked = false;
+            }
+            if(!cb1.checked && !cb2.checked) {
+                cb1.checked = true;
+            }
+        }, this);
+
+        panel.add(cb2 = new SlickUI.Element.Checkbox(50,100, SlickUI.Element.Checkbox.TYPE_RADIO));
+        cb2.events.onInputDown.add(function () {
+            if(cb1.checked && cb2.checked) {
+                cb1.checked = false;
+            }
+            if(!cb1.checked && !cb2.checked) {
+                cb2.checked = true;
+            }
+        }, this);
+
+        panel.add(new SlickUI.Element.Checkbox(100,100));
     }
     function update() {
 

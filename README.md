@@ -61,4 +61,18 @@ That's it! You might be thinking, why would you add a DisplayObject using the UI
 
 The answer is, because UI elements are cascading and they take care of that themselves by using containers. When adding a Panel, Button or DisplayObject, the UI manager puts it in a container and adds a Phaser group to keep the descending elements organized so you can manipulate entire containers.
 
+#### Adding a Checkbox
+Checkboxes can be added using 3 sprites: checkbox, radio and cross. This is how you add a checkbox:
+```javascript
+var cb;
+panel.add(cb = new SlickUI.Element.Checkbox(0,10, SlickUI.Element.Checkbox.TYPE_RADIO));
+cb.events.onInputDown.add(function () {
+    console.log(cb.checked ? 'Checked' : 'Unchecked');
+}, this);
+```
+If you don't provide a type using the last parameter, the default type will be used. You can choose between the following types:
+* SlickUI.Element.Checkbox.TYPE_CHECKBOX (default type, no need to specify)
+* SlickUI.Element.Checkbox.TYPE_RADIO
+* SlickUI.Element.Checkbox.TYPE_CROSS
+
 [Default Kenney theme]: <http://slick-ui.com/kenney-theme.zip>
