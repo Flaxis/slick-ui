@@ -4,6 +4,8 @@
 
 SlickUI beats the challenge of creating user interfaces easily in an object oriented way.
 
+[Live preview available on slick-ui.com]
+
 ### Getting started
 Install using git:
 ```sh
@@ -77,3 +79,4 @@ If you don't provide a type using the last parameter, the default type will be u
 * SlickUI.Element.Checkbox.TYPE_CROSS
 
 [Default Kenney theme]: <http://slick-ui.com/kenney-theme.zip>
+[Live preview available on slick-ui.com]: <http://slick-ui.com/preview/menu.html>
