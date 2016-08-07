@@ -100,7 +100,7 @@ SlickUI.Element.Text.prototype.centerHorizontally = function() {
  * @returns {SlickUI.Element.Text}
  */
 SlickUI.Element.Text.prototype.centerVertically = function() {
-    this.reset(this.container.x - this.text.x, this.text.maxHeight / 2 - this.text.height / 2, false);
+    this.reset(this.container.x - this.text.x, this.text.maxHeight / 2 - this.text.height / 1.5, false);
     return this;
 };
 
@@ -110,6 +110,6 @@ SlickUI.Element.Text.prototype.centerVertically = function() {
  * @returns {SlickUI.Element.Text}
  */
 SlickUI.Element.Text.prototype.center = function() {
-    this.reset(this.text.maxWidth / 2 - this.text.width / 2, this.text.maxHeight / 2 - this.text.height / 1.2, false);
+    this.reset(this.text.maxWidth / 2 - this.text.width / 2, this.text.maxHeight / 2 - this.text.height / 1.5, false);
     return this;
 };

@@ -21,10 +21,6 @@ Phaser.Plugin.SlickUI.prototype.constructor = Phaser.Plugin.SamplePlugin;
  * @param theme
  */
 Phaser.Plugin.SlickUI.prototype.load = function(theme) {
-    if(typeof this.container != 'undefined') {
-        throw new Error('You should only load one theme per UI');
-    }
-
     this.container = new SlickUI.Container.Container(null);
 
     var themePath = theme.replace(/\/[^\/]+$/, '/');
