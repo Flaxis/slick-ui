@@ -14,9 +14,9 @@ SlickUI.Element = SlickUI.Element ? SlickUI.Element : { };
  * @constructor
  */
 SlickUI.Element.Text = function (x, y, value, size, font, width, height) {
-    this.x = x;
-    this.y = y;
-    this.value = value;
+    this._x = x;
+    this._y = y;
+    this._value = value;
     this.width = width;
     this.height = height;
     this.font = font;
@@ -64,7 +64,7 @@ SlickUI.Element.Text.prototype.reset = function(x, y, recalculateWidth) {
     }
     x += this.container.x;
     y += this.container.y;
-    this.text = game.make.bitmapText(x, y, this.font, this.value, this.size);
+    this.text = game.make.bitmapText(x, y, this.font, this._value, this.size);
     this.text.maxWidth = width;
     this.text.maxHeight = height;
     this.container.displayGroup.add(this.text);
@@ -81,7 +81,7 @@ SlickUI.Element.Text.prototype.init = function() {
         this.font = Object.keys(theme.fonts)[Object.keys(theme.fonts).length - 1];
     }
 
-    this.reset(this.x,this.y);
+    this.reset(this._x,this._y);
 };
 
 /**
@@ -90,7 +90,7 @@ SlickUI.Element.Text.prototype.init = function() {
  * @returns {SlickUI.Element.Text}
  */
 SlickUI.Element.Text.prototype.centerHorizontally = function() {
-    this.reset(this.text.maxWidth / 2 - this.text.width / 2, this.container.y - this.text.y, false);
+    this.text.cameraOffset.x = this.text.maxWidth / 2 - this.text.width / 2 + this.container.x;
     return this;
 };
 
@@ -101,7 +101,7 @@ SlickUI.Element.Text.prototype.centerHorizontally = function() {
  */
 SlickUI.Element.Text.prototype.centerVertically = function() {
     var theme = game.cache.getJSON('slick-ui-theme');
-    this.reset(this.container.x - this.text.x, this.container.height / 2 - this.text.height / 2 - Math.round(theme.button['border-y'] / 2), false);
+    this.text.cameraOffset.y = this.container.height / 2 - this.text.height / 2 - Math.round(theme.button['border-y'] / 2) + this.container.y;
     return this;
 };
 
@@ -111,7 +111,41 @@ SlickUI.Element.Text.prototype.centerVertically = function() {
  * @returns {SlickUI.Element.Text}
  */
 SlickUI.Element.Text.prototype.center = function() {
-    var theme = game.cache.getJSON('slick-ui-theme');
-    this.reset(this.text.maxWidth / 2 - this.text.width / 2, this.container.height / 2 - this.text.height / 2 - Math.round(theme.button['border-y'] / 2), false);
+    this.centerHorizontally();
+    this.centerVertically();
     return this;
 };
+
+
+/* ------------------------------- */
+
+
+/**
+ * Setters / getters
+ */
+Object.defineProperty(SlickUI.Element.Text.prototype, 'x', {
+    get: function() {
+        return this.text.cameraOffset.x - this.container.x;
+    },
+    set: function(value) {
+        this.text.cameraOffset.x = value + this.container.x;
+    }
+});
+
+Object.defineProperty(SlickUI.Element.Text.prototype, 'y', {
+    get: function() {
+        return this.text.cameraOffset.y - this.container.y;
+    },
+    set: function(value) {
+        this.text.cameraOffset.y = value + this.container.y;
+    }
+});
+
+Object.defineProperty(SlickUI.Element.Text.prototype, 'value', {
+    get: function() {
+        return this.text.text;
+    },
+    set: function(value) {
+        this.text.text = value;
+    }
+});

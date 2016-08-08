@@ -9,6 +9,10 @@
     "radio_off": "images/grey_circle.png",
     "button_on": "images/blue_button02.png",
     "button_off": "images/grey_button02.png",
+    "slider_end": "images/grey_sliderEnd.png",
+    "slider_base": "images/grey_sliderHorizontal.png",
+    "slider_handle_off": "images/grey_sliderDown.png",
+    "slider_handle_on": "images/blue_sliderDown.png",
     "panel": "images/grey_panel.png"
   },
   "fonts": {
