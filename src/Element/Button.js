@@ -129,12 +129,19 @@ SlickUI.Element.Button.prototype.init = function() {
     this._offsetY = y;
     this.sprite.fixedToCamera = true;
 
+    var hover = false;
+    this.sprite.events.onInputOver.add(function() {hover = true}, this);
+    this.sprite.events.onInputOut.add(function() {hover = false}, this);
+
     this.sprite.events.onInputDown.add(function () {
         this.sprite.setTexture(this.spriteOn.generateTexture());
     }, this);
 
     this.sprite.events.onInputUp.add(function () {
         this.sprite.setTexture(this.spriteOff.generateTexture());
+        if(!hover) {
+            this.sprite.events.onInputUp.halt();
+        }
     }, this);
 
     this.events = this.sprite.events;
