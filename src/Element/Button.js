@@ -121,7 +121,7 @@ SlickUI.Element.Button.prototype.init = function() {
     this.spriteOn = cutSprite(game.make.sprite(0, 0, 'slick-ui-button_on'));
 
     this.sprite = game.make.button(x, y);
-    this.sprite.setTexture(this.spriteOff.generateTexture());
+    this.sprite.loadTexture(this.spriteOff.texture);
     this.container.displayGroup.add(this.sprite);
     this.sprite.x = x;
     this.sprite.y = y;
@@ -134,11 +134,11 @@ SlickUI.Element.Button.prototype.init = function() {
     this.sprite.events.onInputOut.add(function() {hover = false}, this);
 
     this.sprite.events.onInputDown.add(function () {
-        this.sprite.setTexture(this.spriteOn.generateTexture());
+        this.sprite.loadTexture(this.spriteOn.texture);
     }, this);
 
     this.sprite.events.onInputUp.add(function () {
-        this.sprite.setTexture(this.spriteOff.generateTexture());
+        this.sprite.loadTexture(this.spriteOff.texture);
         if(!hover) {
             this.sprite.events.onInputUp.halt();
         }

@@ -103,9 +103,9 @@ Object.defineProperty(SlickUI.Element.Checkbox.prototype, 'checked', {
     set: function(value) {
         this._checked = value;
         if(value) {
-            this.sprite.setTexture(this._spriteOn.generateTexture());
+            this.sprite.loadTexture(this._spriteOn.texture);
         } else {
-            this.sprite.setTexture(this._spriteOff.generateTexture());
+            this.sprite.loadTexture(this._spriteOff.texture);
         }
     }
 });

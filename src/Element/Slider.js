@@ -93,12 +93,12 @@ SlickUI.Element.Slider.prototype.init = function() {
     var dragging = false;
 
     sprite_handle.events.onInputDown.add(function () {
-        sprite_handle.setTexture(handle_on.generateTexture());
+        sprite_handle.loadTexture(handle_on.texture);
         dragging = true;
         this.onDragStart.dispatch((sprite_handle.x - x) / width);
     }, this);
     sprite_handle.events.onInputUp.add(function () {
-        sprite_handle.setTexture(handle_off.generateTexture());
+        sprite_handle.loadTexture(handle_off.texture);
         dragging = false;
         this.onDragStop.dispatch((sprite_handle.x - x) / width);
     }, this);
