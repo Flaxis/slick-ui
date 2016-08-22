@@ -7,6 +7,7 @@ SlickUI beats the challenge of creating user interfaces easily in an object orie
 ### Try out some previews
 * [Sliding menu](http://slick-ui.com/preview/menu.html)
 * [Slider controller](http://slick-ui.com/preview/slider.html)
+* [Text input field](http://slick-ui.com/preview/text-field.html)
 
 ### Getting started
 Install using git:
