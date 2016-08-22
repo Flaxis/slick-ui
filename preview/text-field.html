@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Preview - Text field</title>
+    <script src="js/phaser.min.js"></script>
+    <script src="../dist/slick-ui.min.js"></script>
+</head>
+<body>
+
+<div id="gameContainer"></div>
+
+<script type="text/javascript">
+    var game = new Phaser.Game(650, 350, Phaser.CANVAS, '', { preload: preload, create: create });
+    var slickUI;
+    function preload() {
+        slickUI = game.plugins.add(Phaser.Plugin.SlickUI);
+        game.load.image('backdrop', 'assets/backdrop.png');
+        slickUI.load('assets/ui/kenney/kenney.json');
+    }
+    function create() {
+        game.add.sprite(0,-125,'backdrop');
+        var panel;
+        slickUI.add(panel = new SlickUI.Element.Panel(8, 8, game.width - 16, game.height - 16));
+        panel.add(new SlickUI.Element.Text(10,10, "Text input")).centerHorizontally().text.alpha = 0.5;
+        panel.add(new SlickUI.Element.Text(12,34, "Your name"));
+        var textField = panel.add(new SlickUI.Element.TextField(10,58, panel.width - 20, 40));
+        textField.events.onOK.add(function () {
+            alert('Your name is: ' + textField.value);
+        });
+        textField.events.onToggle.add(function (open) {
+            console.log('You just ' + (open ? 'opened' : 'closed') + ' the virtual keyboard');
+        });
+        textField.events.onKeyPress.add(function(key) {
+            console.log('You pressed: ' + key);
+        });
+    }
+</script>
+
+</body>
+</html>

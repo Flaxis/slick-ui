@@ -9,6 +9,7 @@
     "radio_off": "images/grey_circle.png",
     "button_on": "images/blue_button02.png",
     "button_off": "images/grey_button02.png",
+    "text_field": "images/grey_button02.png",
     "slider_end": "images/grey_sliderEnd.png",
     "slider_base": "images/grey_sliderHorizontal.png",
     "slider_handle_off": "images/grey_sliderDown.png",
@@ -19,6 +20,10 @@
     "minecraftia": ["fonts/minecraftia-black.png", "fonts/minecraftia.xml"]
   },
   "button": {
+    "border-x": 8,
+    "border-y": 8
+  },
+  "text_field": {
     "border-x": 8,
     "border-y": 8
   },

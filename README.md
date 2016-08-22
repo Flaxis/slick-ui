@@ -99,4 +99,24 @@ slider.onDragStop.add(function (value) {
 });
 ```
 
+#### Adding a text input field
+Text input fields are very useful for asking the name of the player. They use canvas embedded virtual keyboards.
+```javascript
+// The last argument is used to determine the maximum amount of characters the input field can have. Defaults to 7 if kept empty.
+var textField = panel.add(new SlickUI.Element.TextField(10,58, panel.width - 20, 40, 7));
+textField.events.onOK.add(function () {
+    alert('Your name is: ' + textField.value);
+});
+textField.events.onToggle.add(function (open) {
+    console.log('You just ' + (open ? 'opened' : 'closed') + ' the virtual keyboard');
+});
+textField.events.onKeyPress.add(function(key) {
+    console.log('You pressed: ' + key);
+});
+```
+As you can see, there are three events you can listen to: onOK, onToggle and onKeyPress
+* onOK gets dispatched when the user clicks the 'OK' key to confirm their input
+* onToggle gets dispatched when the virtual keyboard opens or closes. A boolean parameter is provided telling whether the keyboard is opened (true) or closed (false)
+* onKeyPress gets dispatched whenever the user enters a key in the virtual keyboard. Note that the DEL key gets spelled out entirely in when accessing the key in the first parameter.
+
 [Default Kenney theme]: <http://slick-ui.com/kenney-theme.zip>
