@@ -1,4 +1,4 @@
-SlickUI.Element = SlickUI.Element ? SlickUI.Element : { };
+SlickUI.namespace('Element');
 
 /**
  * Create an interactable button. After initialisation,
@@ -61,77 +61,7 @@ SlickUI.Element.TextField.prototype.init = function() {
     this.container.width -= theme.text_field['border-x'];
     this.container.height -= theme.text_field['border-y'];
 
-    var cutSprite = function(textField) {
-        var bmd = game.add.bitmapData(width, height);
-
-        bmd.copyRect(textField,new Phaser.Rectangle(0,0,theme.text_field['border-x'],theme.text_field['border-y'])); // Left corner
-        bmd.copy(
-            textField,
-            theme.text_field['border-x'] + 1,
-            0,
-            1,
-            theme.text_field['border-y'],
-            theme.text_field['border-x'],
-            0,
-            width - theme.text_field['border-x'] * 2,
-            theme.text_field['border-y']
-        ); // Top border
-
-        bmd.copyRect(textField,new Phaser.Rectangle(textField.width - theme.text_field['border-x'],0,theme.text_field['border-x'],theme.text_field['border-y']), width - theme.text_field['border-x']); // Right corner
-
-        bmd.copy(
-            textField,
-            0,
-            theme.text_field['border-y'] + 1,
-            theme.text_field['border-x'],
-            1,
-            0,
-            theme.text_field['border-y'],
-            theme.text_field['border-x'],
-            height - theme.text_field['border-y'] * 2
-        ); // Left border
-
-        bmd.copy(
-            textField,
-            textField.width - theme.text_field['border-x'],
-            theme.text_field['border-y'] + 1,
-            theme.text_field['border-x'],
-            1,
-            width - theme.text_field['border-x'],
-            theme.text_field['border-y'],
-            theme.text_field['border-x'],
-            height - theme.text_field['border-y'] * 2
-        ); // Right border
-
-        bmd.copyRect(textField,new Phaser.Rectangle(0,textField.height - theme.text_field['border-y'],theme.text_field['border-x'],theme.text_field['border-y']), 0, height - theme.text_field['border-y']); // Left bottom corner
-        bmd.copyRect(textField,new Phaser.Rectangle(textField.width - theme.text_field['border-x'],textField.height - theme.text_field['border-y'],theme.text_field['border-x'],theme.text_field['border-y']), width - theme.text_field['border-x'], height - theme.text_field['border-y']); // Right bottom corner
-        bmd.copy(
-            textField,
-            theme.text_field['border-x'] + 1,
-            textField.height - theme.text_field['border-y'],
-            1,
-            theme.text_field['border-y'],
-            theme.text_field['border-x'],
-            height - theme.text_field['border-y'],
-            width - theme.text_field['border-x'] * 2,
-            theme.text_field['border-y']
-        ); // Bottom border
-
-        bmd.copy(
-            textField,
-            theme.text_field['border-x'],
-            theme.text_field['border-y'],
-            1,
-            1,
-            theme.text_field['border-x'],
-            theme.text_field['border-y'],
-            width - theme.text_field['border-x'] * 2,
-            height - theme.text_field['border-y'] * 2
-        ); // Body
-        return game.make.sprite(x, y, bmd);
-    };
-
-    this.sprite = game.make.sprite(x, y, cutSprite(game.make.sprite(0, 0, 'slick-ui-text_field')).texture);
+    this.sprite = game.make.sprite(x, y, this.container.root.getRenderer('text_field').render(width, height).texture);
     this.sprite.inputEnabled = true;
     this.sprite.input.useHandCursor = true;
     this.container.displayGroup.add(this.sprite);
@@ -145,7 +75,7 @@ SlickUI.Element.TextField.prototype.init = function() {
     this.sprite.events.onInputOver.add(function() {hover = true}, this);
     this.sprite.events.onInputOut.add(function() {hover = false}, this);
 
-    var kb = new SlickUI.Keyboard.Keyboard(Object.keys(theme.fonts)[Object.keys(theme.fonts).length - 1]);
+    var kb = new SlickUI.Keyboard.Keyboard(this.container.root, Object.keys(theme.fonts)[Object.keys(theme.fonts).length - 1]);
     kb.group.cameraOffset.y = game.height;
     kb.group.visible = false;
     var kbAnimating = false;

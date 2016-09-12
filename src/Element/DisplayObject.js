@@ -1,4 +1,4 @@
-SlickUI.Element = SlickUI.Element ? SlickUI.Element : { };
+SlickUI.namespace('Element');
 
 /**
  * Add any display object to the parent container. These will not

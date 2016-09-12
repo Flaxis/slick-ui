@@ -1,4 +1,4 @@
-SlickUI.Element = SlickUI.Element ? SlickUI.Element : { };
+SlickUI.namespace('Element');
 
 /**
  * Checkboxes can be toggled on/off. Use the third
@@ -56,9 +56,12 @@ SlickUI.Element.Checkbox.prototype.init = function() {
             key = 'check';
             break;
     }
-    this.sprite = game.make.sprite(x, y, 'slick-ui-' + key + '_off');
-    this._spriteOff = game.make.sprite(0, 0, 'slick-ui-' + key + '_off');
-    this._spriteOn = game.make.sprite(0, 0, 'slick-ui-' + key + '_on');
+    var sprites = this.container.root.getRenderer('checkbox').render(key);
+    this.sprite = game.make.sprite(0,0,sprites[0].texture);
+    this.sprite.x = x;
+    this.sprite.y = y;
+    this._spriteOff = sprites[0];
+    this._spriteOn = sprites[1];
     this.displayGroup = game.add.group();
     this.displayGroup.add(this.sprite);
     this.container.displayGroup.add(this.displayGroup);

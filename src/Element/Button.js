@@ -1,4 +1,4 @@
-SlickUI.Element = SlickUI.Element ? SlickUI.Element : { };
+SlickUI.namespace('Element');
 
 /**
  * Create an interactable button. After initialisation,
@@ -48,77 +48,9 @@ SlickUI.Element.Button.prototype.init = function() {
     this.container.width -= theme.button['border-x'];
     this.container.height -= theme.button['border-y'];
 
-    var cutSprite = function(button) {
-        var bmd = game.add.bitmapData(width, height);
-
-        bmd.copyRect(button,new Phaser.Rectangle(0,0,theme.button['border-x'],theme.button['border-y'])); // Left corner
-        bmd.copy(
-            button,
-            theme.button['border-x'] + 1,
-            0,
-            1,
-            theme.button['border-y'],
-            theme.button['border-x'],
-            0,
-            width - theme.button['border-x'] * 2,
-            theme.button['border-y']
-        ); // Top border
-
-        bmd.copyRect(button,new Phaser.Rectangle(button.width - theme.button['border-x'],0,theme.button['border-x'],theme.button['border-y']), width - theme.button['border-x']); // Right corner
-
-        bmd.copy(
-            button,
-            0,
-            theme.button['border-y'] + 1,
-            theme.button['border-x'],
-            1,
-            0,
-            theme.button['border-y'],
-            theme.button['border-x'],
-            height - theme.button['border-y'] * 2
-        ); // Left border
-
-        bmd.copy(
-            button,
-            button.width - theme.button['border-x'],
-            theme.button['border-y'] + 1,
-            theme.button['border-x'],
-            1,
-            width - theme.button['border-x'],
-            theme.button['border-y'],
-            theme.button['border-x'],
-            height - theme.button['border-y'] * 2
-        ); // Right border
-
-        bmd.copyRect(button,new Phaser.Rectangle(0,button.height - theme.button['border-y'],theme.button['border-x'],theme.button['border-y']), 0, height - theme.button['border-y']); // Left bottom corner
-        bmd.copyRect(button,new Phaser.Rectangle(button.width - theme.button['border-x'],button.height - theme.button['border-y'],theme.button['border-x'],theme.button['border-y']), width - theme.button['border-x'], height - theme.button['border-y']); // Right bottom corner
-        bmd.copy(
-            button,
-            theme.button['border-x'] + 1,
-            button.height - theme.button['border-y'],
-            1,
-            theme.button['border-y'],
-            theme.button['border-x'],
-            height - theme.button['border-y'],
-            width - theme.button['border-x'] * 2,
-            theme.button['border-y']
-        ); // Bottom border
-
-        bmd.copy(
-            button,
-            theme.button['border-x'],
-            theme.button['border-y'],
-            1,
-            1,
-            theme.button['border-x'],
-            theme.button['border-y'],
-            width - theme.button['border-x'] * 2,
-            height - theme.button['border-y'] * 2
-        ); // Body
-        return game.make.sprite(x, y, bmd);
-    };
-    this.spriteOff = cutSprite(game.make.sprite(0, 0, 'slick-ui-button_off'));
-    this.spriteOn = cutSprite(game.make.sprite(0, 0, 'slick-ui-button_on'));
+    var renderedSprites = this.container.root.getRenderer('button').render(width, height);
+    this.spriteOff = renderedSprites[0];
+    this.spriteOn = renderedSprites[1];
 
     this.sprite = game.make.button(x, y);
     this.sprite.loadTexture(this.spriteOff.texture);

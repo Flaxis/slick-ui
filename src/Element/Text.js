@@ -1,4 +1,4 @@
-SlickUI.Element = SlickUI.Element ? SlickUI.Element : { };
+SlickUI.namespace('Element');
 
 /**
  * Add text to a UI element

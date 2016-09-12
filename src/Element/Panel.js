@@ -1,4 +1,4 @@
-SlickUI.Element = SlickUI.Element ? SlickUI.Element : { };
+SlickUI.namespace('Element');
 
 /**
  * Panels are useful for adding several individual elements to
@@ -38,8 +38,6 @@ SlickUI.Element.Panel.prototype.setContainer = function (container) {
  */
 SlickUI.Element.Panel.prototype.init = function() {
     var theme = game.cache.getJSON('slick-ui-theme');
-    var panel = game.make.sprite(0, 0, 'slick-ui-panel');
-    var bmd = game.add.bitmapData(game.width, game.height);
 
     var x = this.container.x = this.container.parent.x + this._x;
     var y = this.container.y = this.container.parent.y + this._y;
@@ -50,72 +48,9 @@ SlickUI.Element.Panel.prototype.init = function() {
     this.container.width -= theme.panel['border-x'];
     this.container.height -= theme.panel['border-y'];
 
-    bmd.copyRect(panel,new Phaser.Rectangle(0,0,theme.panel['border-x'],theme.panel['border-y'])); // Left corner
-    bmd.copy(
-        panel,
-        theme.panel['border-x'] + 1,
-        0,
-        1,
-        theme.panel['border-y'],
-        theme.panel['border-x'],
-        0,
-        width - theme.panel['border-x'] * 2,
-        theme.panel['border-y']
-    ); // Top border
-
-    bmd.copyRect(panel,new Phaser.Rectangle(panel.width - theme.panel['border-x'],0,theme.panel['border-x'],theme.panel['border-y']), width - theme.panel['border-x']); // Right corner
-
-    bmd.copy(
-        panel,
-        0,
-        theme.panel['border-y'] + 1,
-        theme.panel['border-x'],
-        1,
-        0,
-        theme.panel['border-y'],
-        theme.panel['border-x'],
-        height - theme.panel['border-y'] * 2
-    ); // Left border
-
-    bmd.copy(
-        panel,
-        panel.width - theme.panel['border-x'],
-        theme.panel['border-y'] + 1,
-        theme.panel['border-x'],
-        1,
-        width - theme.panel['border-x'],
-        theme.panel['border-y'],
-        theme.panel['border-x'],
-        height - theme.panel['border-y'] * 2
-    ); // Right border
-
-    bmd.copyRect(panel,new Phaser.Rectangle(0,panel.height - theme.panel['border-y'],theme.panel['border-x'],theme.panel['border-y']), 0, height - theme.panel['border-y']); // Left bottom corner
-    bmd.copyRect(panel,new Phaser.Rectangle(panel.width - theme.panel['border-x'],panel.height - theme.panel['border-y'],theme.panel['border-x'],theme.panel['border-y']), width - theme.panel['border-x'], height - theme.panel['border-y']); // Right bottom corner
-    bmd.copy(
-        panel,
-        theme.panel['border-x'] + 1,
-        panel.height - theme.panel['border-y'],
-        1,
-        theme.panel['border-y'],
-        theme.panel['border-x'],
-        height - theme.panel['border-y'],
-        width - theme.panel['border-x'] * 2,
-        theme.panel['border-y']
-    ); // Bottom border
-
-    bmd.copy(
-        panel,
-        theme.panel['border-x'],
-        theme.panel['border-y'],
-        1,
-        1,
-        theme.panel['border-x'],
-        theme.panel['border-y'],
-        width - theme.panel['border-x'] * 2,
-        height - theme.panel['border-y'] * 2
-    ); // Body
-
-    this._sprite = this.container.displayGroup.create(x, y, bmd);
+    this._sprite = this.container.displayGroup.add(this.container.root.getRenderer('panel').render(width,height));
+    this._sprite.x = x;
+    this._sprite.y = y;
     this._sprite.fixedToCamera = true;
     this._offsetX = x;
     this._offsetY = y;

@@ -1,4 +1,4 @@
-SlickUI.Element = SlickUI.Element ? SlickUI.Element : { };
+SlickUI.namespace('Element');
 
 /**
  * Create a slider to control defined values
@@ -43,49 +43,14 @@ SlickUI.Element.Slider.prototype.init = function() {
     var width = Math.min(this.container.width - this._x, this._width);
     var initialPosition = Math.min(1,Math.max(0,this._value)) * width + x;
 
-    var sprite_base = game.make.sprite(0, 0, 'slick-ui-slider_base');
-    var sprite_end = game.make.sprite(0, 0, 'slick-ui-slider_end');
+    var renderedSprites = this.container.root.getRenderer('slider').render(width);
+    var sprite_base = renderedSprites[0];
+    var handle_off = renderedSprites[1];
+    var handle_on = renderedSprites[2];
+    sprite_base.x = x;
+    sprite_base.y = y;
 
-    var bmd = game.add.bitmapData(width, sprite_end.height);
-    bmd.copy(
-        sprite_base,
-        0,
-        0,
-        1,
-        sprite_base.height,
-        0,
-        Math.round(sprite_end.height/4),
-        width,
-        sprite_base.height
-    );
-    bmd.copy(
-        sprite_end,
-        0,
-        0,
-        sprite_end.width,
-        sprite_end.height,
-        0,
-        0,
-        sprite_end.width,
-        sprite_end.height
-    );
-    bmd.copy(
-        sprite_end,
-        0,
-        0,
-        sprite_end.width,
-        sprite_end.height,
-        width - sprite_end.width,
-        0,
-        sprite_end.width,
-        sprite_end.height
-    );
-
-    var handle_off = game.make.sprite(0, 0, 'slick-ui-slider_handle_off');
-    var handle_on = game.make.sprite(0, 0, 'slick-ui-slider_handle_on');
-
-    sprite_base = game.make.sprite(x, y, bmd);
-    sprite_handle = game.make.sprite(initialPosition, y, 'slick-ui-slider_handle_off');
+    sprite_handle = game.make.sprite(initialPosition, y, handle_off.texture);
     sprite_handle.anchor.setTo(0.5);
 
     sprite_handle.inputEnabled = true;

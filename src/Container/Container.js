@@ -1,4 +1,4 @@
-SlickUI.Container = SlickUI.Container ? SlickUI.Container : { };
+SlickUI.namespace('Container');
 
 /**
  * UI elements can be layered; for instance, you can layer a
@@ -13,10 +13,16 @@ SlickUI.Container = SlickUI.Container ? SlickUI.Container : { };
  * @constructor
  */
 SlickUI.Container.Container = function(parent) {
+    this.root = null;
+    if(!(parent instanceof SlickUI.Container.Container)) {
+        this.root = parent;
+        parent = null;
+    }
     this.parent = parent;
     this.children = [];
     this.displayGroup = game.add.group();
     if(parent) {
+        this.root = parent.root;
         parent.displayGroup.add(this.displayGroup);
         this.x = parent.x;
         this.y = parent.y;

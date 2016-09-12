@@ -1,5 +1,15 @@
 var SlickUI = {};
 
+SlickUI.namespace = function(namespace) {
+    var parts = namespace.split('.');
+    var context = SlickUI;
+    for(var i in parts) {
+        var part = parts[i];
+        context = context[part] = context[part] ? context[part] : {};
+    }
+    return SlickUI[namespace];
+};
+
 /**
  * Construct the plugin
  *
@@ -10,6 +20,18 @@ var SlickUI = {};
  */
 Phaser.Plugin.SlickUI = function (game, parent) {
     Phaser.Plugin.call(this, game, parent);
+
+    this.defaultRenderer = {
+        "button": "SlickUI.Element.Renderer.ButtonRenderer",
+        "checkbox": "SlickUI.Element.Renderer.CheckboxRenderer",
+        "panel": "SlickUI.Element.Renderer.PanelRenderer",
+        "slider": "SlickUI.Element.Renderer.SliderRenderer",
+        "text_field": "SlickUI.Element.Renderer.TextFieldRenderer",
+        "keyboard": "SlickUI.Element.Renderer.KeyboardRenderer",
+        "key": "SlickUI.Element.Renderer.KeyRenderer"
+    };
+
+    this.renderer = {};
 };
 
 Phaser.Plugin.SlickUI.prototype = Object.create(Phaser.Plugin.prototype);
@@ -21,7 +43,7 @@ Phaser.Plugin.SlickUI.prototype.constructor = Phaser.Plugin.SamplePlugin;
  * @param theme
  */
 Phaser.Plugin.SlickUI.prototype.load = function(theme) {
-    this.container = new SlickUI.Container.Container(null);
+    this.container = new SlickUI.Container.Container(this);
 
     var themePath = theme.replace(/\/[^\/]+$/, '/');
     game.load.json('slick-ui-theme', theme);
@@ -52,4 +74,32 @@ Phaser.Plugin.SlickUI.prototype.load = function(theme) {
  */
 Phaser.Plugin.SlickUI.prototype.add = function (element) {
     return this.container.add(element);
+};
+
+/**
+ * Get or create a renderer
+ *
+ * @param name
+ */
+Phaser.Plugin.SlickUI.prototype.getRenderer = function (name) {
+    if(typeof this.renderer[name] != 'undefined') {
+        return this.renderer[name];
+    }
+    var theme = game.cache.getJSON('slick-ui-theme');
+    var resolveObject = function(name) {
+        var namespace = name.split('.');
+        var context = window;
+        for(var i in namespace) {
+            context = context[namespace[i]];
+        }
+        return context;
+    };
+
+    if(typeof theme.renderer == 'undefined' || typeof theme.renderer[name] == 'undefined') {
+        if(typeof this.defaultRenderer[name] == 'undefined') {
+            throw new Error('Trying to access undefined renderer \'' + name + '\'.');
+        }
+        return this.renderer[name] = new (resolveObject(this.defaultRenderer[name]));
+    }
+    return this.renderer[name] = new (resolveObject(theme.renderer[name]));
 };

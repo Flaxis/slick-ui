@@ -1,4 +1,4 @@
-SlickUI.Keyboard = SlickUI.Keyboard ? SlickUI.Keyboard : { };
+SlickUI.namespace('Keyboard');
 
 /**
  * A key on the keyboard
@@ -6,11 +6,12 @@ SlickUI.Keyboard = SlickUI.Keyboard ? SlickUI.Keyboard : { };
  * @author Richard Snijders <richard@fizz.nl>
  * @constructor
  */
-SlickUI.Keyboard.Key = function(x, y, width, height, font, fontSize, text) {
+SlickUI.Keyboard.Key = function(plugin, x, y, width, height, font, fontSize, text) {
     this.group = game.add.group();
     this.font = font;
     this._x = x;
     this._y = y;
+    this.plugin = plugin;
     this._width = width;
     this._height = height;
     this.fontSize = fontSize;
@@ -23,20 +24,10 @@ SlickUI.Keyboard.Key = function(x, y, width, height, font, fontSize, text) {
  * @returns SlickUI.Container.Container
  */
 SlickUI.Keyboard.Key.prototype.init = function() {
-    var graphicsUp = game.make.graphics(0, 0);
-    graphicsUp.beginFill(0xcfcfcf);
-    graphicsUp.drawRoundedRect(0,0,this._width, this._height, 5);
-    graphicsUp.beginFill(0xffffff);
-    graphicsUp.drawRoundedRect(1,1,this._width - 2, this._height - 2, 5);
+    var sprites = this.plugin.getRenderer('key').render(this._width, this._height);
 
-    var graphicsDown = game.make.graphics(0, 0);
-    graphicsDown.beginFill(0x178ab8);
-    graphicsDown.drawRoundedRect(0,0,this._width, this._height, 5);
-    graphicsDown.beginFill(0x1fa7e1);
-    graphicsDown.drawRoundedRect(1,1,this._width - 2, this._height - 2, 5);
-
-    var keyUp = game.make.sprite(this._x, this._y, graphicsUp.generateTexture());
-    var keyDown = game.make.sprite(this._x, this._y, graphicsDown.generateTexture());
+    var keyUp = sprites[0];
+    var keyDown = sprites[1];
 
     var base = game.make.sprite(this._x, this._y, keyUp.texture);
     var hover = false;
