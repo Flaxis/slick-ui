@@ -33,7 +33,7 @@ SlickUI.Element.Slider.prototype.setContainer = function (container) {
  * Adds the slider and makes it interactable
  */
 SlickUI.Element.Slider.prototype.init = function() {
-    var theme = game.cache.getJSON('slick-ui-theme');
+    var theme = this.container.root.game.cache.getJSON('slick-ui-theme');
     this.onDragStart = new Phaser.Signal();
     this.onDrag = new Phaser.Signal();
     this.onDragStop = new Phaser.Signal();
@@ -50,7 +50,7 @@ SlickUI.Element.Slider.prototype.init = function() {
     sprite_base.x = x;
     sprite_base.y = y;
 
-    sprite_handle = game.make.sprite(initialPosition, y, handle_off.texture);
+    sprite_handle = this.container.root.game.make.sprite(initialPosition, y, handle_off.texture);
     sprite_handle.anchor.setTo(0.5);
 
     sprite_handle.inputEnabled = true;
@@ -67,8 +67,8 @@ SlickUI.Element.Slider.prototype.init = function() {
         dragging = false;
         this.onDragStop.dispatch((sprite_handle.x - x) / width);
     }, this);
-    
-    game.input.addMoveCallback(function (pointer, pointer_x) {
+
+    this.container.root.game.input.addMoveCallback(function (pointer, pointer_x) {
         if(!dragging) {
             return;
         }

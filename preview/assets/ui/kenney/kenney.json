@@ -16,6 +16,9 @@
     "slider_handle_on": "images/blue_sliderDown.png",
     "panel": "images/grey_panel.png"
   },
+  "renderer": {
+    "button": "SlickUI.Element.Renderer.ButtonRenderer"
+  },
   "fonts": {
     "minecraftia": ["fonts/minecraftia-black.png", "fonts/minecraftia.xml"]
   },

@@ -50,7 +50,7 @@ SlickUI.Element.TextField.prototype.setContainer = function (container) {
  * parent container.
  */
 SlickUI.Element.TextField.prototype.init = function() {
-    var theme = game.cache.getJSON('slick-ui-theme');
+    var theme = this.container.root.game.cache.getJSON('slick-ui-theme');
 
     var x = this.container.x = this.container.parent.x + this._x;
     var y = this.container.y = this.container.parent.y + this._y;
@@ -61,7 +61,7 @@ SlickUI.Element.TextField.prototype.init = function() {
     this.container.width -= theme.text_field['border-x'];
     this.container.height -= theme.text_field['border-y'];
 
-    this.sprite = game.make.sprite(x, y, this.container.root.getRenderer('text_field').render(width, height).texture);
+    this.sprite = this.container.root.game.make.sprite(x, y, this.container.root.getRenderer('text_field').render(width, height).texture);
     this.sprite.inputEnabled = true;
     this.sprite.input.useHandCursor = true;
     this.container.displayGroup.add(this.sprite);
@@ -76,7 +76,7 @@ SlickUI.Element.TextField.prototype.init = function() {
     this.sprite.events.onInputOut.add(function() {hover = false}, this);
 
     var kb = new SlickUI.Keyboard.Keyboard(this.container.root, Object.keys(theme.fonts)[Object.keys(theme.fonts).length - 1]);
-    kb.group.cameraOffset.y = game.height;
+    kb.group.cameraOffset.y = this.container.root.game.height;
     kb.group.visible = false;
     var kbAnimating = false;
 
@@ -87,13 +87,13 @@ SlickUI.Element.TextField.prototype.init = function() {
         kbAnimating = true;
         if(!kb.group.visible) {
             kb.group.visible = true;
-            game.add.tween(kb.group.cameraOffset).to( {y: game.height - kb.height}, 500, Phaser.Easing.Exponential.Out, true).onComplete.add(function () {
+            this.container.root.game.add.tween(kb.group.cameraOffset).to( {y: this.container.root.game.height - kb.height}, 500, Phaser.Easing.Exponential.Out, true).onComplete.add(function () {
                 kbAnimating = false;
             });
             this.events.onToggle.dispatch(true);
         }
         else {
-            game.add.tween(kb.group.cameraOffset).to( {y: game.height}, 500, Phaser.Easing.Exponential.Out, true).onComplete.add(function () {
+            this.container.root.game.add.tween(kb.group.cameraOffset).to( {y: this.container.root.game.height}, 500, Phaser.Easing.Exponential.Out, true).onComplete.add(function () {
                 kbAnimating = false;
                 kb.group.visible = false;
             });
@@ -186,7 +186,7 @@ Object.defineProperty(SlickUI.Element.TextField.prototype, 'width', {
         return this.container.width
     },
     set: function(value) {
-        var theme = game.cache.getJSON('slick-ui-theme');
+        var theme = this.container.root.game.cache.getJSON('slick-ui-theme');
         this._width = Math.round(value + theme.text_field['border-x']);
         this.sprite.destroy();
         this.init();
@@ -199,7 +199,7 @@ Object.defineProperty(SlickUI.Element.TextField.prototype, 'height', {
         return this.container.height
     },
     set: function(value) {
-        var theme = game.cache.getJSON('slick-ui-theme');
+        var theme = this.container.root.game.cache.getJSON('slick-ui-theme');
         this._height = Math.round(value + theme.text_field['border-y']);
         this.sprite.destroy();
         this.init();

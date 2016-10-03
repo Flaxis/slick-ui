@@ -6,7 +6,7 @@ SlickUI.namespace('Element.Renderer');
  * @author Richard Snijders <richard@fizz.nl>
  * @constructor
  */
-SlickUI.Element.Renderer.SliderRenderer = function() { };
+SlickUI.Element.Renderer.SliderRenderer = function(game) { this.game = game };
 
 /**
  * Renders the slider and returns it's components as an array
@@ -14,12 +14,12 @@ SlickUI.Element.Renderer.SliderRenderer = function() { };
  * @returns Array (0: base; 1: handle off; 2: handle on)
  */
 SlickUI.Element.Renderer.SliderRenderer.prototype.render = function(width) {
-    var theme = game.cache.getJSON('slick-ui-theme');
+    var theme = this.game.cache.getJSON('slick-ui-theme');
 
-    var sprite_base = game.make.sprite(0, 0, 'slick-ui-slider_base');
-    var sprite_end = game.make.sprite(0, 0, 'slick-ui-slider_end');
+    var sprite_base = this.game.make.sprite(0, 0, 'slick-ui-slider_base');
+    var sprite_end = this.game.make.sprite(0, 0, 'slick-ui-slider_end');
 
-    var bmd = game.add.bitmapData(width, sprite_end.height);
+    var bmd = this.game.add.bitmapData(width, sprite_end.height);
     bmd.copy(
         sprite_base,
         0,
@@ -54,10 +54,10 @@ SlickUI.Element.Renderer.SliderRenderer.prototype.render = function(width) {
         sprite_end.height
     );
 
-    var handle_off = game.make.sprite(0, 0, 'slick-ui-slider_handle_off');
-    var handle_on = game.make.sprite(0, 0, 'slick-ui-slider_handle_on');
+    var handle_off = this.game.make.sprite(0, 0, 'slick-ui-slider_handle_off');
+    var handle_on = this.game.make.sprite(0, 0, 'slick-ui-slider_handle_on');
 
-    sprite_base = game.make.sprite(0, 0, bmd);
+    sprite_base = this.game.make.sprite(0, 0, bmd);
 
     return [sprite_base, handle_off, handle_on];
 };

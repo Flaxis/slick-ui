@@ -57,12 +57,12 @@ SlickUI.Element.Checkbox.prototype.init = function() {
             break;
     }
     var sprites = this.container.root.getRenderer('checkbox').render(key);
-    this.sprite = game.make.sprite(0,0,sprites[0].texture);
+    this.sprite = this.container.root.game.make.sprite(0,0,sprites[0].texture);
     this.sprite.x = x;
     this.sprite.y = y;
     this._spriteOff = sprites[0];
     this._spriteOn = sprites[1];
-    this.displayGroup = game.add.group();
+    this.displayGroup = this.container.root.game.add.group();
     this.displayGroup.add(this.sprite);
     this.container.displayGroup.add(this.displayGroup);
     this.sprite.inputEnabled = true;

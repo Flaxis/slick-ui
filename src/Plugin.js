@@ -46,25 +46,25 @@ Phaser.Plugin.SlickUI.prototype.load = function(theme) {
     this.container = new SlickUI.Container.Container(this);
 
     var themePath = theme.replace(/\/[^\/]+$/, '/');
-    game.load.json('slick-ui-theme', theme);
-    game.load.resetLocked = true;
-    game.load.start();
+    this.game.load.json('slick-ui-theme', theme);
+    this.game.load.resetLocked = true;
+    this.game.load.start();
     var isQueued = false;
     var queueAssets = function () {
-        if(!game.cache.checkJSONKey('slick-ui-theme') || isQueued) {
+        if(!this.game.cache.checkJSONKey('slick-ui-theme') || isQueued) {
             return;
         }
-        var theme = game.cache.getJSON('slick-ui-theme');
+        var theme = this.game.cache.getJSON('slick-ui-theme');
         for(var k in theme.images) {
-            game.load.image('slick-ui-' + k, themePath + theme.images[k]);
+            this.game.load.image('slick-ui-' + k, themePath + theme.images[k]);
         }
         for(k in theme.fonts) {
-            game.load.bitmapFont(k, themePath + theme.fonts[k][0], themePath + theme.fonts[k][1]);
+            this.game.load.bitmapFont(k, themePath + theme.fonts[k][0], themePath + theme.fonts[k][1]);
         }
         isQueued = true;
-        game.load.onFileComplete.remove(queueAssets);
+        this.game.load.onFileComplete.remove(queueAssets);
     };
-    game.load.onFileComplete.add(queueAssets, this);
+    this.game.load.onFileComplete.add(queueAssets, this);
 };
 
 /**
@@ -85,7 +85,7 @@ Phaser.Plugin.SlickUI.prototype.getRenderer = function (name) {
     if(typeof this.renderer[name] != 'undefined') {
         return this.renderer[name];
     }
-    var theme = game.cache.getJSON('slick-ui-theme');
+    var theme = this.game.cache.getJSON('slick-ui-theme');
     var resolveObject = function(name) {
         var namespace = name.split('.');
         var context = window;
@@ -99,7 +99,7 @@ Phaser.Plugin.SlickUI.prototype.getRenderer = function (name) {
         if(typeof this.defaultRenderer[name] == 'undefined') {
             throw new Error('Trying to access undefined renderer \'' + name + '\'.');
         }
-        return this.renderer[name] = new (resolveObject(this.defaultRenderer[name]));
+        return this.renderer[name] = new (resolveObject(this.defaultRenderer[name]))(this.game);
     }
-    return this.renderer[name] = new (resolveObject(theme.renderer[name]));
+    return this.renderer[name] = new (resolveObject(theme.renderer[name]))(this.game);
 };

@@ -6,7 +6,7 @@ SlickUI.namespace('Element.Renderer');
  * @author Richard Snijders <richard@fizz.nl>
  * @constructor
  */
-SlickUI.Element.Renderer.ButtonRenderer = function() { };
+SlickUI.Element.Renderer.ButtonRenderer = function(game) { this.game = game };
 
 /**
  * Renders the states of the button and returns them as an array
@@ -14,10 +14,11 @@ SlickUI.Element.Renderer.ButtonRenderer = function() { };
  * @returns Array (0: sprite for off state; 1: sprite for on state)
  */
 SlickUI.Element.Renderer.ButtonRenderer.prototype.render = function(width, height) {
-    var theme = game.cache.getJSON('slick-ui-theme');
+    var theme = this.game.cache.getJSON('slick-ui-theme');
 
+    var context = this;
     var cutSprite = function(button) {
-        var bmd = game.add.bitmapData(width, height);
+        var bmd = context.game.add.bitmapData(width, height);
 
         bmd.copyRect(button,new Phaser.Rectangle(0,0,theme.button['border-x'],theme.button['border-y'])); // Left corner
         bmd.copy(
@@ -83,10 +84,10 @@ SlickUI.Element.Renderer.ButtonRenderer.prototype.render = function(width, heigh
             width - theme.button['border-x'] * 2,
             height - theme.button['border-y'] * 2
         ); // Body
-        return game.make.sprite(0, 0, bmd);
+        return context.game.make.sprite(0, 0, bmd);
     };
-    var off = cutSprite(game.make.sprite(0, 0, 'slick-ui-button_off'));
-    var on  = cutSprite(game.make.sprite(0, 0, 'slick-ui-button_on'));
+    var off = cutSprite(this.game.make.sprite(0, 0, 'slick-ui-button_off'));
+    var on  = cutSprite(this.game.make.sprite(0, 0, 'slick-ui-button_on'));
 
     return [off,on];
 };

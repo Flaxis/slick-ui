@@ -6,7 +6,7 @@ SlickUI.namespace('Element.Renderer');
  * @author Richard Snijders <richard@fizz.nl>
  * @constructor
  */
-SlickUI.Element.Renderer.PanelRenderer = function() { };
+SlickUI.Element.Renderer.PanelRenderer = function(game) { this.game = game };
 
 /**
  * Renders the panel and returns the sprite
@@ -14,9 +14,9 @@ SlickUI.Element.Renderer.PanelRenderer = function() { };
  * @returns Phaser.Sprite
  */
 SlickUI.Element.Renderer.PanelRenderer.prototype.render = function(width, height) {
-    var theme = game.cache.getJSON('slick-ui-theme');
-    var bmd = game.add.bitmapData(game.width, game.height);
-    var panel = game.make.sprite(0, 0, 'slick-ui-panel');
+    var theme = this.game.cache.getJSON('slick-ui-theme');
+    var bmd = this.game.add.bitmapData(this.game.width, this.game.height);
+    var panel = this.game.make.sprite(0, 0, 'slick-ui-panel');
 
     bmd.copyRect(panel,new Phaser.Rectangle(0,0,theme.panel['border-x'],theme.panel['border-y'])); // Left corner
     bmd.copy(
@@ -83,5 +83,5 @@ SlickUI.Element.Renderer.PanelRenderer.prototype.render = function(width, height
         height - theme.panel['border-y'] * 2
     ); // Body
     
-    return game.make.sprite(0, 0, bmd);
+    return this.game.make.sprite(0, 0, bmd);
 };

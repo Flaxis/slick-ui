@@ -37,7 +37,7 @@ SlickUI.Element.Button.prototype.setContainer = function (container) {
  * parent container.
  */
 SlickUI.Element.Button.prototype.init = function() {
-    var theme = game.cache.getJSON('slick-ui-theme');
+    var theme = this.container.root.game.cache.getJSON('slick-ui-theme');
 
     var x = this.container.x = this.container.parent.x + this._x;
     var y = this.container.y = this.container.parent.y + this._y;
@@ -52,7 +52,7 @@ SlickUI.Element.Button.prototype.init = function() {
     this.spriteOff = renderedSprites[0];
     this.spriteOn = renderedSprites[1];
 
-    this.sprite = game.make.button(x, y);
+    this.sprite = this.container.root.game.make.button(x, y);
     this.sprite.loadTexture(this.spriteOff.texture);
     this.container.displayGroup.add(this.sprite);
     this.sprite.x = x;
@@ -141,7 +141,7 @@ Object.defineProperty(SlickUI.Element.Button.prototype, 'width', {
         return this.container.width
     },
     set: function(value) {
-        var theme = game.cache.getJSON('slick-ui-theme');
+        var theme = this.container.root.game.cache.getJSON('slick-ui-theme');
         this._width = Math.round(value + theme.button['border-x']);
         this.sprite.destroy();
         this.init();
@@ -154,7 +154,7 @@ Object.defineProperty(SlickUI.Element.Button.prototype, 'height', {
         return this.container.height
     },
     set: function(value) {
-        var theme = game.cache.getJSON('slick-ui-theme');
+        var theme = this.container.root.game.cache.getJSON('slick-ui-theme');
         this._height = Math.round(value + theme.button['border-y']);
         this.sprite.destroy();
         this.init();

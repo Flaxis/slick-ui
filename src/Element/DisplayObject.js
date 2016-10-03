@@ -22,13 +22,6 @@ SlickUI.Element.DisplayObject = function (x, y, displayObject, width, height) {
     this.container = null;
     this._width = width;
     this._height = height;
-
-    if(typeof width == 'undefined') {
-        this._width = game.width;
-    }
-    if(typeof height == 'undefined') {
-        this._height = game.height;
-    }
 };
 
 /**
@@ -38,6 +31,13 @@ SlickUI.Element.DisplayObject = function (x, y, displayObject, width, height) {
  */
 SlickUI.Element.DisplayObject.prototype.setContainer = function (container) {
     this.container = new SlickUI.Container.Container(container);
+
+    if(typeof this._width == 'undefined') {
+        this._width = this.container.root.game.width;
+    }
+    if(typeof this._height == 'undefined') {
+        this._height = this.container.root.game.height;
+    }
 };
 
 /**
@@ -50,7 +50,7 @@ SlickUI.Element.DisplayObject.prototype.init = function() {
     this.container.height = Math.min(this.container.parent.height - this._y, this._height);
 
     if(!this.displayObject instanceof Phaser.Sprite) {
-        this.sprite = game.make.sprite(x, y, this.displayObject);
+        this.sprite = this.container.root.game.make.sprite(x, y, this.displayObject);
     }
     else {
         this.sprite = this.displayObject;

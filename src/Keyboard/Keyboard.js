@@ -7,9 +7,9 @@ SlickUI.namespace('Keyboard');
  * @constructor
  */
 SlickUI.Keyboard.Keyboard = function(plugin, font, fontSize, initialize) {
-    this.group = game.add.group();
-    this.keyGroupLower = game.make.group();
-    this.keyGroupUpper = game.make.group();
+    this.group = plugin.game.add.group();
+    this.keyGroupLower = plugin.game.make.group();
+    this.keyGroupUpper = plugin.game.make.group();
     this.keyGroupCurrent = this.keyGroupLower;
     this.keyGroupUpper.visible = false;
     this.group.fixedToCamera = true;
@@ -42,7 +42,7 @@ SlickUI.Keyboard.Keyboard.prototype.create = function() {
     this.group.add(this.keyGroupLower);
     this.group.add(this.keyGroupUpper);
     var keyboardWidth = 440;
-    var offsetX = Math.round(game.world.centerX - keyboardWidth / 2);
+    var offsetX = Math.round(this.plugin.game.world.centerX - keyboardWidth / 2);
 
     this.addKey(new SlickUI.Keyboard.Key(this.plugin, offsetX, 16, 32, 32, this.font, this.fontSize, '1'), this.group);
     this.addKey(new SlickUI.Keyboard.Key(this.plugin, offsetX + 36, 16, 32, 32, this.font, this.fontSize, '2'), this.group);

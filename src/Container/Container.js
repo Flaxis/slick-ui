@@ -20,9 +20,9 @@ SlickUI.Container.Container = function(parent) {
     }
     this.parent = parent;
     this.children = [];
-    this.displayGroup = game.add.group();
     if(parent) {
         this.root = parent.root;
+        this.displayGroup = this.root.game.add.group();
         parent.displayGroup.add(this.displayGroup);
         this.x = parent.x;
         this.y = parent.y;
@@ -30,10 +30,11 @@ SlickUI.Container.Container = function(parent) {
         this.height = parent.height;
     }
     else {
+        this.displayGroup = this.root.game.add.group();
         this.x = 0;
         this.y = 0;
-        this.width = game.width;
-        this.height = game.height;
+        this.width = this.root.game.width;
+        this.height = this.root.game.height;
     }
 };
 
@@ -48,7 +49,7 @@ SlickUI.Container.Container.prototype.add = function(element) {
     if(typeof element.init == 'function') {
         element.init();
     }
-    game.world.bringToTop(this.displayGroup);
+    this.root.game.world.bringToTop(this.displayGroup);
     this.children.push(element);
 
     return element; // Allows chaining

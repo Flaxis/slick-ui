@@ -37,7 +37,7 @@ SlickUI.Element.Panel.prototype.setContainer = function (container) {
  * parent container.
  */
 SlickUI.Element.Panel.prototype.init = function() {
-    var theme = game.cache.getJSON('slick-ui-theme');
+    var theme = this.container.root.game.cache.getJSON('slick-ui-theme');
 
     var x = this.container.x = this.container.parent.x + this._x;
     var y = this.container.y = this.container.parent.y + this._y;
@@ -118,7 +118,7 @@ Object.defineProperty(SlickUI.Element.Panel.prototype, 'width', {
         return this.container.width
     },
     set: function(value) {
-        var theme = game.cache.getJSON('slick-ui-theme');
+        var theme = this.container.root.game.cache.getJSON('slick-ui-theme');
         this._width = Math.round(value + theme.panel['border-x']);
         this._sprite.destroy();
         this.init();
@@ -131,7 +131,7 @@ Object.defineProperty(SlickUI.Element.Panel.prototype, 'height', {
         return this.container.height
     },
     set: function(value) {
-        var theme = game.cache.getJSON('slick-ui-theme');
+        var theme = this.container.root.game.cache.getJSON('slick-ui-theme');
         this._height = Math.round(value + theme.panel['border-y']);
         this._sprite.destroy();
         this.init();

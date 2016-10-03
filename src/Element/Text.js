@@ -21,15 +21,6 @@ SlickUI.Element.Text = function (x, y, value, size, font, width, height) {
     this.height = height;
     this.font = font;
     this.size = size;
-    if(typeof this.width == 'undefined') {
-        this.width = game.width;
-    }
-    if(typeof this.height == 'undefined') {
-        this.height = game.height;
-    }
-    if(typeof this.size == 'undefined') {
-        this.size = 16;
-    }
     this.container = null;
 };
 
@@ -40,6 +31,16 @@ SlickUI.Element.Text = function (x, y, value, size, font, width, height) {
  */
 SlickUI.Element.Text.prototype.setContainer = function (container) {
     this.container = container;
+
+    if(typeof this.width == 'undefined') {
+        this.width = this.container.root.game.width;
+    }
+    if(typeof this.height == 'undefined') {
+        this.height = this.container.root.game.height;
+    }
+    if(typeof this.size == 'undefined') {
+        this.size = 16;
+    }
 };
 
 /**
@@ -64,7 +65,7 @@ SlickUI.Element.Text.prototype.reset = function(x, y, recalculateWidth) {
     }
     x += this.container.x;
     y += this.container.y;
-    this.text = game.make.bitmapText(x, y, this.font, this._value, this.size);
+    this.text = this.container.root.game.make.bitmapText(x, y, this.font, this._value, this.size);
     this.text.maxWidth = width;
     this.text.maxHeight = height;
     this.container.displayGroup.add(this.text);
@@ -75,7 +76,7 @@ SlickUI.Element.Text.prototype.reset = function(x, y, recalculateWidth) {
  * Initialize text
  */
 SlickUI.Element.Text.prototype.init = function() {
-    var theme = game.cache.getJSON('slick-ui-theme');
+    var theme = this.container.root.game.cache.getJSON('slick-ui-theme');
 
     if(typeof this.font == 'undefined') {
         this.font = Object.keys(theme.fonts)[Object.keys(theme.fonts).length - 1];
@@ -100,7 +101,7 @@ SlickUI.Element.Text.prototype.centerHorizontally = function() {
  * @returns {SlickUI.Element.Text}
  */
 SlickUI.Element.Text.prototype.centerVertically = function() {
-    var theme = game.cache.getJSON('slick-ui-theme');
+    var theme = this.container.root.game.cache.getJSON('slick-ui-theme');
     this.text.cameraOffset.y = this.container.height / 2 - this.text.height / 2 - Math.round(theme.button['border-y'] / 2) + this.container.y;
     return this;
 };

@@ -29,7 +29,7 @@ SlickUI.Keyboard.Key.prototype.init = function() {
     var keyUp = sprites[0];
     var keyDown = sprites[1];
 
-    var base = game.make.sprite(this._x, this._y, keyUp.texture);
+    var base = this.plugin.game.make.sprite(this._x, this._y, keyUp.texture);
     var hover = false;
     base.inputEnabled = true;
     base.input.useHandCursor = true;
@@ -45,7 +45,7 @@ SlickUI.Keyboard.Key.prototype.init = function() {
     base.events.onInputOver.add(function() {hover = true}, this);
     base.events.onInputOut.add(function() {hover = false}, this);
 
-    var text = game.make.bitmapText(this._x, this._y, this.font, this.text, this.fontSize);
+    var text = this.plugin.game.make.bitmapText(this._x, this._y, this.font, this.text, this.fontSize);
     text.x += this._width / 2 - text.width / 2;
     text.y += this._height / 2 - this.fontSize / 2 - 4;
 

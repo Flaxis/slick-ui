@@ -6,7 +6,7 @@ SlickUI.namespace('Element.Renderer');
  * @author Richard Snijders <richard@fizz.nl>
  * @constructor
  */
-SlickUI.Element.Renderer.TextFieldRenderer = function() { };
+SlickUI.Element.Renderer.TextFieldRenderer = function(game) { this.game = game };
 
 /**
  * Renders the textField and returns it as a sprite
@@ -14,9 +14,9 @@ SlickUI.Element.Renderer.TextFieldRenderer = function() { };
  * @returns Phaser.Sprite
  */
 SlickUI.Element.Renderer.TextFieldRenderer.prototype.render = function(width, height) {
-    var theme = game.cache.getJSON('slick-ui-theme');
-    var bmd = game.add.bitmapData(width, height);
-    var textField = game.make.sprite(0, 0, 'slick-ui-text_field');
+    var theme = this.game.cache.getJSON('slick-ui-theme');
+    var bmd = this.game.add.bitmapData(width, height);
+    var textField = this.game.make.sprite(0, 0, 'slick-ui-text_field');
 
     bmd.copyRect(textField,new Phaser.Rectangle(0,0,theme.text_field['border-x'],theme.text_field['border-y'])); // Left corner
     bmd.copy(
@@ -82,5 +82,5 @@ SlickUI.Element.Renderer.TextFieldRenderer.prototype.render = function(width, he
         width - theme.text_field['border-x'] * 2,
         height - theme.text_field['border-y'] * 2
     ); // Body
-    return game.make.sprite(0, 0, bmd);
+    return this.game.make.sprite(0, 0, bmd);
 };
