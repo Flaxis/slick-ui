@@ -1,4 +1,7 @@
 [![Gitter](https://badges.gitter.im/slick-ui/Lobby.svg)](https://gitter.im/slick-ui/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+
+Released as public domain - feel free to do anything to the library code you like. (this excludes the assets and the Phaser game engine)
+
 # SlickUI
 ![SlickUI](http://slick-ui.com/img/portfolio/thumbnails/1.jpg)
 
