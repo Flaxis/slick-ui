@@ -50,7 +50,7 @@ SlickUI.Element.Slider.prototype.init = function() {
     sprite_base.x = x;
     sprite_base.y = y;
 
-    sprite_handle = this.container.root.game.make.sprite(initialPosition, y, handle_off.texture);
+    var sprite_handle = this.container.root.game.make.sprite(initialPosition, y, handle_off.texture);
     sprite_handle.anchor.setTo(0.5);
 
     sprite_handle.inputEnabled = true;
