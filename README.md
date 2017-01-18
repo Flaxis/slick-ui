@@ -89,6 +89,10 @@ Sliders are used to give the illusion of analog control over an object's propert
 ```javascript
 var slider;
 panel.add(slider = new SlickUI.Element.Slider(16,100, panel.width - 32));
+/*
+ * To create a slider rendered vertically:
+ * new SlickUI.Element.Slider(game.width - 64,130, game.height - 178, 0.5, true); <- The last parameter indicates we want a vertical slider.
+ */
 slider.onDrag.add(function (value) {
     // This will log the slider's value on a scale of 100 every time the user moves the drag handle
     console.log(Math.round(value * 100) + '%');
