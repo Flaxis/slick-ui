@@ -13,13 +13,13 @@ SlickUI.Element.Renderer.SliderRenderer = function(game) { this.game = game };
  *
  * @returns Array (0: base; 1: handle off; 2: handle on)
  */
-SlickUI.Element.Renderer.SliderRenderer.prototype.render = function(width) {
+SlickUI.Element.Renderer.SliderRenderer.prototype.render = function(size, vertical) {
     var theme = this.game.cache.getJSON('slick-ui-theme');
 
     var sprite_base = this.game.make.sprite(0, 0, 'slick-ui-slider_base');
     var sprite_end = this.game.make.sprite(0, 0, 'slick-ui-slider_end');
 
-    var bmd = this.game.add.bitmapData(width, sprite_end.height);
+    var bmd = this.game.add.bitmapData(size, sprite_end.height);
     bmd.copy(
         sprite_base,
         0,
@@ -28,7 +28,7 @@ SlickUI.Element.Renderer.SliderRenderer.prototype.render = function(width) {
         sprite_base.height,
         0,
         Math.round(sprite_end.height/4),
-        width,
+        size,
         sprite_base.height
     );
     bmd.copy(
@@ -48,7 +48,7 @@ SlickUI.Element.Renderer.SliderRenderer.prototype.render = function(width) {
         0,
         sprite_end.width,
         sprite_end.height,
-        width - sprite_end.width,
+        size - sprite_end.width,
         0,
         sprite_end.width,
         sprite_end.height
@@ -58,6 +58,10 @@ SlickUI.Element.Renderer.SliderRenderer.prototype.render = function(width) {
     var handle_on = this.game.make.sprite(0, 0, 'slick-ui-slider_handle_on');
 
     sprite_base = this.game.make.sprite(0, 0, bmd);
+
+    if(vertical) {
+        sprite_base.angle = 90;
+    }
 
     return [sprite_base, handle_off, handle_on];
 };

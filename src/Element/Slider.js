@@ -7,16 +7,22 @@ SlickUI.namespace('Element');
  * @param x
  * @param y
  * @param size
+ * @param value
+ * @param vertical
  * @constructor
  */
-SlickUI.Element.Slider = function (x, y, size, value) {
+SlickUI.Element.Slider = function (x, y, size, value, vertical) {
     this._x = x;
     this._y = y;
-    this._width = size;
+    this._size = size;
     this._value = value;
+    this._vertical = true === vertical;
     this.container = null;
     if(typeof value == 'undefined') {
         this._value = 1;
+    }
+    if(this._vertical) {
+        this._value = Math.abs(this._value - 1);
     }
 };
 
@@ -40,40 +46,57 @@ SlickUI.Element.Slider.prototype.init = function() {
 
     var x = this.container.x + this._x;
     var y = this.container.y + this._y;
-    var width = Math.min(this.container.width - this._x, this._width);
-    var initialPosition = Math.min(1,Math.max(0,this._value)) * width + x;
+    var position = this._vertical ? y : x;
+    var modulatingVariable = this._vertical ? 'y' : 'x';
+    var size = Math.min(this.container.width - this._x, this._size);
+    if(this._vertical) {
+        size = Math.min(this.container.height - this._y, this._size);
+    }
+    var initialPosition = Math.min(1,Math.max(0,this._value)) * size + position;
 
-    var renderedSprites = this.container.root.getRenderer('slider').render(width);
+    var renderedSprites = this.container.root.getRenderer('slider').render(size, this._vertical);
     var sprite_base = renderedSprites[0];
     var handle_off = renderedSprites[1];
     var handle_on = renderedSprites[2];
     sprite_base.x = x;
     sprite_base.y = y;
 
-    sprite_handle = this.container.root.game.make.sprite(initialPosition, y, handle_off.texture);
+    var sprite_handle = this.container.root.game.make.sprite(this._vertical ? x : initialPosition, this._vertical ? initialPosition : y, handle_off.texture);
     sprite_handle.anchor.setTo(0.5);
 
+    if(this._vertical) {
+        sprite_handle.angle = 270;
+    }
     sprite_handle.inputEnabled = true;
     sprite_handle.input.useHandCursor = true;
     var dragging = false;
 
+    var getValue = function() {
+        var value = (sprite_handle[modulatingVariable] - position) / size;
+        if(this._vertical) {
+            value = Math.abs(value - 1);
+        }
+        return value;
+    };
+
     sprite_handle.events.onInputDown.add(function () {
         sprite_handle.loadTexture(handle_on.texture);
         dragging = true;
-        this.onDragStart.dispatch((sprite_handle.x - x) / width);
+        this.onDragStart.dispatch(getValue.apply(this));
     }, this);
     sprite_handle.events.onInputUp.add(function () {
         sprite_handle.loadTexture(handle_off.texture);
         dragging = false;
-        this.onDragStop.dispatch((sprite_handle.x - x) / width);
+        this.onDragStop.dispatch(getValue.apply(this));
     }, this);
 
-    this.container.root.game.input.addMoveCallback(function (pointer, pointer_x) {
+    this.container.root.game.input.addMoveCallback(function (pointer, pointer_x, pointer_y) {
         if(!dragging) {
             return;
         }
-        sprite_handle.x = Math.min(x + width, Math.max(x, pointer_x - this.container.displayGroup.x));
-        this.onDrag.dispatch((sprite_handle.x - x) / width);
+        var _pos = this._vertical ? pointer_y : pointer_x;
+        sprite_handle[modulatingVariable] = Math.min(position + size, Math.max(position, _pos - this.container.displayGroup[modulatingVariable]));
+        this.onDrag.dispatch(getValue.apply(this));
     }, this);
 
     this.container.displayGroup.add(sprite_base);

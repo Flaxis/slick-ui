@@ -32,8 +32,13 @@
 
         var valueText = new SlickUI.Element.Text(0,panel.height - 40, '100%');
         var slider = new SlickUI.Element.Slider(16,100, game.width - 64);
+        var sliderVertical = new SlickUI.Element.Slider(game.width - 64,130, game.height - 178, 0.5, true);
         panel.add(slider);
+        panel.add(sliderVertical);
         panel.add(valueText).centerHorizontally();
+        sliderVertical.onDrag.add(function (value) {
+            previewSprite.angle = -20 + value * 40;
+        });
         slider.onDrag.add(function (value) {
             previewSprite.alpha = value;
             valueText.value = Math.round(value * 100) + '%';
