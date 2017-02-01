@@ -43,6 +43,7 @@ SlickUI.Element.Slider.prototype.init = function() {
     this.onDragStart = new Phaser.Signal();
     this.onDrag = new Phaser.Signal();
     this.onDragStop = new Phaser.Signal();
+    this.displayGroup = game.add.group();
 
     var x = this.container.x + this._x;
     var y = this.container.y + this._y;
@@ -67,12 +68,14 @@ SlickUI.Element.Slider.prototype.init = function() {
     if(this._vertical) {
         sprite_handle.angle = 270;
     }
+    sprite_base.fixedToCamera = true;
+    sprite_handle.fixedToCamera = true;
     sprite_handle.inputEnabled = true;
     sprite_handle.input.useHandCursor = true;
     var dragging = false;
 
     var getValue = function() {
-        var value = (sprite_handle[modulatingVariable] - position) / size;
+        var value = (sprite_handle.cameraOffset[modulatingVariable] - position) / size;
         if(this._vertical) {
             value = Math.abs(value - 1);
         }
@@ -94,11 +97,55 @@ SlickUI.Element.Slider.prototype.init = function() {
         if(!dragging) {
             return;
         }
-        var _pos = this._vertical ? pointer_y : pointer_x;
-        sprite_handle[modulatingVariable] = Math.min(position + size, Math.max(position, _pos - this.container.displayGroup[modulatingVariable]));
+        var _pos = (this._vertical ? pointer_y : pointer_x) - this.displayGroup[modulatingVariable];
+        sprite_handle.cameraOffset[modulatingVariable] = Math.min(position + size, Math.max(position, _pos - this.container.displayGroup[modulatingVariable]));
         this.onDrag.dispatch(getValue.apply(this));
     }, this);
 
-    this.container.displayGroup.add(sprite_base);
-    this.container.displayGroup.add(sprite_handle);
+    this.displayGroup.add(sprite_base);
+    this.displayGroup.add(sprite_handle);
+    this.container.displayGroup.add(this.displayGroup);
 };
+
+
+/* ------------------------------- */
+
+
+/**
+ * Setters / getters
+ */
+Object.defineProperty(SlickUI.Element.Slider.prototype, 'x', {
+    get: function() {
+        return this.displayGroup.x + this._x;
+    },
+    set: function(value) {
+        this.displayGroup.x = value - this._x;
+    }
+});
+
+Object.defineProperty(SlickUI.Element.Slider.prototype, 'y', {
+    get: function() {
+        return this.displayGroup.y + this._y;
+    },
+    set: function(value) {
+        this.displayGroup.y = value - this._y;
+    }
+});
+
+Object.defineProperty(SlickUI.Element.Slider.prototype, 'alpha', {
+    get: function() {
+        return this.displayGroup.alpha;
+    },
+    set: function(value) {
+        this.displayGroup.alpha = value;
+    }
+});
+
+Object.defineProperty(SlickUI.Element.Slider.prototype, 'visible', {
+    get: function() {
+        return this.displayGroup.visible;
+    },
+    set: function(value) {
+        this.displayGroup.visible = value;
+    }
+});
