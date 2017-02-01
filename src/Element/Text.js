@@ -142,6 +142,24 @@ Object.defineProperty(SlickUI.Element.Text.prototype, 'y', {
     }
 });
 
+Object.defineProperty(SlickUI.Element.Text.prototype, 'alpha', {
+    get: function() {
+        return this.text.alpha;
+    },
+    set: function(value) {
+        this.text.alpha = value;
+    }
+});
+
+Object.defineProperty(SlickUI.Element.Text.prototype, 'visible', {
+    get: function() {
+        return this.text.visible;
+    },
+    set: function(value) {
+        this.text.visible = value;
+    }
+});
+
 Object.defineProperty(SlickUI.Element.Text.prototype, 'value', {
     get: function() {
         return this.text.text;
