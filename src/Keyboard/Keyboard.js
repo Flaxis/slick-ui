@@ -42,7 +42,7 @@ SlickUI.Keyboard.Keyboard.prototype.create = function() {
     this.group.add(this.keyGroupLower);
     this.group.add(this.keyGroupUpper);
     var keyboardWidth = 440;
-    var offsetX = Math.round(this.plugin.game.world.centerX - keyboardWidth / 2);
+    var offsetX = Math.round(this.plugin.game.width / 2 - keyboardWidth / 2);
 
     this.addKey(new SlickUI.Keyboard.Key(this.plugin, offsetX, 16, 32, 32, this.font, this.fontSize, '1'), this.group);
     this.addKey(new SlickUI.Keyboard.Key(this.plugin, offsetX + 36, 16, 32, 32, this.font, this.fontSize, '2'), this.group);
