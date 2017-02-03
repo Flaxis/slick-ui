@@ -66,6 +66,18 @@ SlickUI.Element.Panel.prototype.add = function (element) {
     return this.container.add(element);
 };
 
+/**
+ * Destroys the panel, removing from world.
+ */
+SlickUI.Element.Panel.prototype.destroy = function() {
+
+    this.container.displayGroup.removeAll(true);
+    this.container.displayGroup.destroy();
+    this.container.children = [];
+    this.container = undefined;
+    this.sprite = undefined;
+};
+
 
 /* ------------------------------- */
 
