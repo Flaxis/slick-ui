@@ -7,7 +7,7 @@ SlickUI.namespace('Keyboard');
  * @constructor
  */
 SlickUI.Keyboard.Key = function(plugin, x, y, width, height, font, fontSize, text) {
-    this.group = game.add.group();
+    this.group = plugin.game.add.group();
     this.font = font;
     this._x = x;
     this._y = y;
