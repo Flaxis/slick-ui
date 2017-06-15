@@ -44,6 +44,13 @@ SlickUI.Element.Text.prototype.setContainer = function (container) {
 };
 
 /**
+ * Removes parent reference for the current element.
+ */
+SlickUI.Element.Text.prototype.unsetContainer = function() {
+    this.container.removeParent();
+};
+
+/**
  * Bitmap text objects don't work too well when moved around;
  * that's why we destroy it and re-create it.
  * Feel free to improve this code.
@@ -115,6 +122,13 @@ SlickUI.Element.Text.prototype.center = function() {
     this.centerHorizontally();
     this.centerVertically();
     return this;
+};
+
+/**
+ * Destroys the current text
+ */
+SlickUI.Element.Text.prototype.destroy = function () {
+    this.container.destroy();
 };
 
 

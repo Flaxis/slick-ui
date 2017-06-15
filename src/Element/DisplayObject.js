@@ -41,6 +41,13 @@ SlickUI.Element.DisplayObject.prototype.setContainer = function (container) {
 };
 
 /**
+ * Removes parent reference for the current element.
+ */
+SlickUI.Element.DisplayObject.prototype.unsetContainer = function() {
+    this.container.removeParent();
+};
+
+/**
  * Initializer
  */
 SlickUI.Element.DisplayObject.prototype.init = function() {
@@ -73,6 +80,12 @@ SlickUI.Element.DisplayObject.prototype.add = function (element) {
     return this.container.add(element);
 };
 
+/**
+ * Destroys the current DisplayObject
+ */
+SlickUI.Element.DisplayObject.prototype.destroy = function () {
+    this.container.destroy();
+};
 
 /* ------------------------------- */
 

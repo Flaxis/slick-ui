@@ -31,6 +31,13 @@ SlickUI.Element.Panel.prototype.setContainer = function (container) {
 };
 
 /**
+ * Removes parent reference for the current element.
+ */
+SlickUI.Element.Panel.prototype.unsetContainer = function() {
+    this.container.removeParent();
+};
+
+/**
  * Initialisation slices the panel's sprite up according to the
  * theme settings and adds it to the container.
  * Position and width will be calculated relatively to the
@@ -64,6 +71,15 @@ SlickUI.Element.Panel.prototype.init = function() {
  */
 SlickUI.Element.Panel.prototype.add = function (element) {
     return this.container.add(element);
+};
+
+/**
+ * Removes an element from the container
+ *
+ * @param element
+ */
+SlickUI.Element.Panel.prototype.remove = function(element) {
+    this.container.remove(element);
 };
 
 /**

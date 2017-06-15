@@ -38,6 +38,13 @@ SlickUI.Element.Checkbox.prototype.setContainer = function (container) {
 };
 
 /**
+ * Removes parent reference for the current element.
+ */
+SlickUI.Element.Checkbox.prototype.unsetContainer = function() {
+    this.container.removeParent();
+};
+
+/**
  * Initializer
  */
 SlickUI.Element.Checkbox.prototype.init = function() {
@@ -74,6 +81,12 @@ SlickUI.Element.Checkbox.prototype.init = function() {
     }, this);
 };
 
+/**
+ * Destroys the current checkbox
+ */
+SlickUI.Element.Checkbox.prototype.destroy = function () {
+    this.container.destroy();
+};
 
 /* ------------------------------- */
 
