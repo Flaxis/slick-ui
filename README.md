@@ -127,4 +127,19 @@ As you can see, there are three events you can listen to: onOK, onToggle and onK
 * onToggle gets dispatched when the virtual keyboard opens or closes. A boolean parameter is provided telling whether the keyboard is opened (true) or closed (false)
 * onKeyPress gets dispatched whenever the user enters a key in the virtual keyboard. Note that the DEL key gets spelled out entirely in when accessing the key in the first parameter.
 
+#### Remove an element from a panel
+You can remove any element from a panel if you need to clean it up.
+```javascript
+panel.remove(button);
+panel.remove(cb);
+panel.remove(slider);
+```
+This will remove and destroy the element from the panel.
+
+#### Destroy the panel
+If you don't need a panel anymore, you can destroy it.
+```javascript
+panel.destroy();
+```
+
 [Default Kenney theme]: <http://slick-ui.com/kenney-theme.zip>

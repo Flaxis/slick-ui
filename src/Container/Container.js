@@ -54,3 +54,50 @@ SlickUI.Container.Container.prototype.add = function(element) {
 
     return element; // Allows chaining
 };
+
+/**
+ * Removes an element from the container
+ *
+ * @param element
+ * @returns SlickUI.Container.Container
+ */
+SlickUI.Container.Container.prototype.remove = function(element) {
+    element.unsetContainer();
+
+    var index = this.children.indexOf(element);
+    if (index > -1) {
+        this.children.splice(index, 1);
+    }
+
+    element.destroy();
+};
+
+/**
+ * Removes the parent reference from the container
+ */
+SlickUI.Container.Container.prototype.removeParent = function() {
+
+    if (this.parent) {
+        this.parent.displayGroup.remove(this.displayGroup);
+    } else {
+        //Only remove if root is defined (has a parent?)
+        if (this.root) {
+            this.root.game.world.remove(this.displayGroup);
+        }
+    }
+
+    this.root = undefined;
+    this.parent = undefined;
+
+};
+
+/**
+ * Destroys the container
+ */
+SlickUI.Container.Container.prototype.destroy = function() {
+
+    this.removeParent();
+    this.displayGroup.destroy();
+
+};
+

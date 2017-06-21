@@ -44,6 +44,13 @@ SlickUI.Element.TextField.prototype.setContainer = function (container) {
 };
 
 /**
+ * Removes parent reference for the current element.
+ */
+SlickUI.Element.TextField.prototype.unsetContainer = function() {
+    this.container.removeParent();
+};
+
+/**
  * Initialisation slices the button's sprite up according to the
  * theme settings and adds it to the container.
  * Position and width will be calculated relatively to the
@@ -134,6 +141,12 @@ SlickUI.Element.TextField.prototype.add = function (element) {
     return this.container.add(element);
 };
 
+/**
+ * Destroys the current text field
+ */
+SlickUI.Element.TextField.prototype.destroy = function () {
+    this.container.destroy();
+};
 
 /* ------------------------------- */
 

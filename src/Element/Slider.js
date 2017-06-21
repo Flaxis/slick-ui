@@ -36,6 +36,13 @@ SlickUI.Element.Slider.prototype.setContainer = function (container) {
 };
 
 /**
+ * Removes parent reference for the current element.
+ */
+SlickUI.Element.Slider.prototype.unsetContainer = function() {
+    this.container.removeParent();
+};
+
+/**
  * Adds the slider and makes it interactable
  */
 SlickUI.Element.Slider.prototype.init = function() {
@@ -107,6 +114,12 @@ SlickUI.Element.Slider.prototype.init = function() {
     this.container.displayGroup.add(this.displayGroup);
 };
 
+/**
+ * Destroys the current slider
+ */
+SlickUI.Element.Slider.prototype.destroy = function () {
+    this.container.destroy();
+};
 
 /* ------------------------------- */
 

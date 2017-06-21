@@ -31,6 +31,13 @@ SlickUI.Element.Button.prototype.setContainer = function (container) {
 };
 
 /**
+ * Removes parent reference for the current element.
+ */
+SlickUI.Element.Button.prototype.unsetContainer = function() {
+    this.container.removeParent();
+};
+
+/**
  * Initialisation slices the button's sprite up according to the
  * theme settings and adds it to the container.
  * Position and width will be calculated relatively to the
@@ -89,6 +96,12 @@ SlickUI.Element.Button.prototype.add = function (element) {
     return this.container.add(element);
 };
 
+/**
+ * Destroys the current button
+ */
+SlickUI.Element.Button.prototype.destroy = function () {
+    this.container.destroy();
+};
 
 /* ------------------------------- */
 
