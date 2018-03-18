@@ -1,6 +1,7 @@
 {
   "name": "SlickUI",
-  "version": "0.1.0",
+  "version": "0.1.1",
+  "description": "SlickUI beats the challenge of creating user interfaces easily in an object oriented way.",
   "devDependencies": {
     "grunt": "~0.4.5",
     "grunt-contrib-concat": "^1.0.0",
