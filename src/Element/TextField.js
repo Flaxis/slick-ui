@@ -86,7 +86,18 @@ SlickUI.Element.TextField.prototype.init = function() {
     kb.group.cameraOffset.y = this.container.root.game.height;
     kb.group.visible = false;
     var kbAnimating = false;
-
+    var kbev = function(e) { 
+    	switch (e.keyCode) { 
+            case 13: 
+                g.events.onOK.dispatch();
+                break; 
+            case 8: 
+            case 46:  
+                g.events.onKeyPress.dispatch('DEL'); 
+                break; 
+            default: g.events.onKeyPress.dispatch(e.key) 
+        } 
+    }
     this.sprite.events.onInputDown.add(function () {
         if(kbAnimating) {
             return;
@@ -97,6 +108,7 @@ SlickUI.Element.TextField.prototype.init = function() {
             this.container.root.game.add.tween(kb.group.cameraOffset).to( {y: this.container.root.game.height - kb.height}, 500, Phaser.Easing.Exponential.Out, true).onComplete.add(function () {
                 kbAnimating = false;
             });
+            document.addEventListener('keyup',kbev)
             this.events.onToggle.dispatch(true);
         }
         else {
@@ -104,6 +116,7 @@ SlickUI.Element.TextField.prototype.init = function() {
                 kbAnimating = false;
                 kb.group.visible = false;
             });
+            document.removeEventListener('keyup',kbev)
             this.events.onToggle.dispatch(false);
         }
     }, this);
